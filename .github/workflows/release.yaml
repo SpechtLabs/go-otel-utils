@@ -1,0 +1,43 @@
+name: Tag Go Submodules
+
+on:
+  push:
+    tags:
+      - 'v*'  # only run for version tags like v0.0.1, v1.2.3
+
+jobs:
+  tag-submodules:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write  # required to push new tags
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # need full history to tag
+
+      - name: Get version from tag
+        id: version
+        run: |
+          echo "version=${GITHUB_REF#refs/tags/}" >> $GITHUB_OUTPUT
+
+      - name: Tag each Go submodule
+        run: |
+          version="${{ steps.version.outputs.version }}"
+          echo "Tagging submodules with version: $version"
+
+          for dir in */go.mod; do
+            subdir=$(dirname "$dir")
+            tag="$subdir/$version"
+
+            # Skip if tag already exists
+            if git rev-parse "$tag" >/dev/null 2>&1; then
+              echo "Tag $tag already exists. Skipping."
+              continue
+            fi
+
+            echo "Creating tag: $tag"
+            git tag "$tag"
+            git push origin "$tag"
+          done
