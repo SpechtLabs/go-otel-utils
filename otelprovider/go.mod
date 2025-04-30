@@ -1,4 +1,4 @@
-module github.com/SpechtLabs/otelprovider
+module github.com/SpechtLabs/go-otel-utils/otelprovider
 
 go 1.24.0
 
