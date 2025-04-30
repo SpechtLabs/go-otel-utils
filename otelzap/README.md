@@ -1,26 +1,24 @@
 # Zap OpenTelemetry instrumentation
 
-This is a fork of [uptrace/opentelemetry-go-extra/otelzap](https://github.com/uptrace/opentelemetry-go-extra/tree/main/otelzap)
+This is a __fork__ of [uptrace/opentelemetry-go-extra/otelzap](https://github.com/uptrace/opentelemetry-go-extra/tree/main/otelzap) with some minor, quality of life, improvements.
 
-[Zap OpenTelemetry instrumentation](https://uptrace.dev/get/instrument/opentelemetry-zap.html)
-records Zap log messages as events on the existing span that must be passed in a `context.Context`
-as a first argument. It does not record anything if the context does not contain a span.
+This Zap OpenTelemetry instrumentation records Zap log messages as events on the existing span that must be passed
+in a `context.Context` as a first argument. It does not record anything if the context does not contain a span.
 
 ## Installation
 
 ```shell
-go get github.com/uptrace/opentelemetry-go-extra/otelzap
+go get github.com/SpechtLabs/go-otel-utils/otelzap
 ```
 
 ## Usage
 
-You need to create an `otelzap.Logger` using this package and pass a
-[context](https://uptrace.dev/opentelemetry/go-tracing.html#context) to propagate the active span.
+You need to create an `otelzap.Logger` using this package and pass a [context](https://uptrace.dev/opentelemetry/go-tracing.html#context) to propagate the active span.
 
 ```go
 import (
     "go.uber.org/zap"
-    "github.com/uptrace/opentelemetry-go-extra/otelzap"
+    "github.com/SpechtLabs/go-otel-utils/otelzap"
 )
 
 // Wrap zap logger to extend Zap with API that accepts a context.Context.
@@ -44,11 +42,9 @@ Both variants are fast and don't allocate. See [example](/example/) for details.
 Just like Zap, otelzap provides a global logger that can be set with `otelzap.ReplaceGlobals`:
 
 ```go
-package main
-
 import (
  "go.uber.org/zap"
- "github.com/uptrace/opentelemetry-go-extra/otelzap"
+ "github.com/SpechtLabs/go-otel-utils/otelzap"
 )
 
 func main() {
@@ -90,21 +86,13 @@ sugar.InfofContext(ctx, "Failed to fetch URL: %s", url)
 
 ## Options
 
-[otelzap.New](https://pkg.go.dev/github.com/uptrace/opentelemetry-go-extra/otelzap#New) accepts a
-couple of [options](https://pkg.go.dev/github.com/uptrace/opentelemetry-go-extra/otelzap#Option):
+`otelzap.New`accepts a couple of [options](https://pkg.go.dev/github.com/SpechtLabs/go-otel-utils/otelzap#Option):
 
-- `otelzap.WithMinLevel(zap.WarnLevel)` sets the minimal zap logging level on which the log message
-  is recorded on the span.
-- `otelzap.WithErrorStatusLevel(zap.ErrorLevel)` sets the minimal zap logging level on which the
-  span status is set to codes.Error.
-- `otelzap.WithCaller(true)` configures the logger to annotate each event with the filename, line
-  number, and function name of the caller. Enabled by default.
-- `otelzap.WithCallerDepth(0)` sets the depth of the caller stack to skip when annotating each
-  event. Useful if you're wrapping this library with your own functions.
-- `otelzap.WithStackTrace(true)` configures the logger to capture logs with a stack trace. Disabled
-  by default.
-- `otelzap.WithExtraFields(true)` configures the logger to add the given fields to structured log
-  messages and to span log events.
-- `otelzap.WithTraceIDField(true)` configures the logger to add `trace_id` field to structured log
-  messages. This option is only useful with backends that don't support OTLP and instead parse log
-  messages to extract structured information.
+- `otelzap.WithMinLevel(zap.WarnLevel)` sets the minimal zap logging level on which the log message is recorded on the span.
+- `otelzap.WithErrorStatusLevel(zap.ErrorLevel)` sets the minimal zap logging level on which the span status is set to codes.Error.
+- `otelzap.WithAnnotateLevel(zap.WarnLevel)` sets the minimal zap logging level on which spans will be annotated with the log fields as metadata.
+- `otelzap.WithCaller(true)` configures the logger to annotate each event with the filename, line number, and function name of the caller. Enabled by default.
+- `otelzap.WithCallerDepth(0)` sets the depth of the caller stack to skip when annotating each  event. Useful if you're wrapping this library with your own functions.
+- `otelzap.WithStackTrace(true)` configures the logger to capture logs with a stack trace. Disabled by default.
+- `otelzap.WithExtraFields(true)` configures the logger to add the given fields to structured log messages and to span log events.
+- `otelzap.WithTraceIDField(true)` configures the logger to add `trace_id` field to structured log messages. This option is only useful with backends that don't support OTLP and instead parse log messages to extract structured information.
