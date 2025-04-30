@@ -1,3 +1,5 @@
+github.com/SpechtLabs/go-otel-utils/otelzap v0.0.0-20250430163709-ffd0eb72702d h1:iUpMmw8Tx5DtTKV1JlfhWWjVhV6YutFJJmgOXWdx1F0=
+github.com/SpechtLabs/go-otel-utils/otelzap v0.0.0-20250430163709-ffd0eb72702d/go.mod h1:yFRI5trCJ/QslLoS6kuEFs8Y9QyctqcUnVXhwH/FzQI=
 github.com/cenkalti/backoff/v4 v4.3.0 h1:MyRJ/UdXutAwSAT+s3wNd7MfTIcy71VQueUuFK343L8=
 github.com/cenkalti/backoff/v4 v4.3.0/go.mod h1:Y3VNntkOUPxTVeUxJ/G5vcM//AlwfmyYozVcomhLiZE=
 github.com/davecgh/go-spew v1.1.1 h1:vj9j/u1bqnvCEfJOwUhtlOARqs3+rkHYY13jYWTU97c=

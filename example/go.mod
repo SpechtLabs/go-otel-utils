@@ -2,13 +2,7 @@ module github.com/SpechtLabs/go-otel-utils/example
 
 go 1.24.0
 
-replace github.com/SpechtLabs/go-otel-utils/otelzap => ./../otelzap
-
-replace github.com/SpechtLabs/go-otel-utils/otelprovider => ./../otelprovider
-
 require (
-	github.com/SpechtLabs/go-otel-utils/otelprovider v0.0.0-00010101000000-000000000000
-	github.com/SpechtLabs/go-otel-utils/otelzap v0.0.0-00010101000000-000000000000
 	go.opentelemetry.io/otel v1.35.0
 	go.uber.org/zap v1.27.0
 )
