@@ -7,7 +7,7 @@ An opinionated helper library for easily setting up OpenTelemetry log and trace 
 OTelProvider simplifies the process of configuring OpenTelemetry (OTel) in your Go applications by providing ready-to-use functions for setting up tracing and logging with sensible defaults. This library helps reduce boilerplate code and ensures consistent telemetry configuration across your services.
 
 ## Features
-- 
+
 - Simple API for initializing OpenTelemetry trace providers
 - Structured logging with OpenTelemetry integration
 - Resource detection for common environment information
@@ -17,7 +17,7 @@ OTelProvider simplifies the process of configuring OpenTelemetry (OTel) in your 
 ## Installation
 
 ``` bash
-go get github.com/SpechtLabs/otelprovider
+go get github.com/SpechtLabs/go-otel-utils/otelprovider
 ```
 
 ## Usage
@@ -31,7 +31,7 @@ import (
     "context"
     "log"
     
-    "github.com/SpechtLabs/otelprovider"
+    "github.com/SpechtLabs/go-otel-utils/otelprovider"
 )
 
 func main() {
@@ -68,6 +68,7 @@ See the [example/](example/) directory for a complete working example of how to 
 ### Configuration Options
 
 The library offers various configuration options through environment variables:
+
 - `OTEL_EXPORTER_OTLP_ENDPOINT`: Endpoint for the OTLP exporter
 - `OTEL_SERVICE_NAME`: Default service name if not specified
 - `OTEL_ENVIRONMENT`: Environment (development, staging, production)
@@ -76,6 +77,7 @@ The library offers various configuration options through environment variables:
 ## Opinionated Decisions
 
 The otelprovider library makes several opinionated choices to simplify telemetry setup:
+
 1. **Sensible Defaults**: Provides reasonable default configurations that work out of the box
 2. **Resource Detection**: Automatically detects and attaches environment information to telemetry data
 3. **Structured Logging**: Uses structured logging for better searchability and context
