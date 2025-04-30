@@ -44,7 +44,8 @@ jobs:
           cache-dependency-path: "${{ matrix.folder }}/*.sum"
 
       - name: Run Go Build
-        run: go build -v "./{{ matrix.folder }}/..."
+        working-directory: "${{ matrix.folder }}/"
+        run: go build -v "./..."
 
       - name: GolangCI Lint
         uses: golangci/golangci-lint-action@v7
