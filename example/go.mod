@@ -8,7 +8,7 @@ replace github.com/SpechtLabs/go-otel-utils/otelprovider => ./../otelprovider
 
 require (
 	github.com/SpechtLabs/otelprovider v0.0.0-00010101000000-000000000000
-	github.com/SpechtLabs/otelzap v0.0.0-20250430161144-c78cf359dda0
+	github.com/SpechtLabs/otelzap 712b2c53a9c1
 	go.opentelemetry.io/otel v1.35.0
 	go.uber.org/zap v1.27.0
 )
