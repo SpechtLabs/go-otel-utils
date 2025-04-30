@@ -39,9 +39,9 @@ jobs:
       - name: Setup Go
         uses: actions/setup-go@v5
         with:
-          go-version-file: "{{ matrix.folder }}/go.mod"
+          go-version-file: "${{ matrix.folder }}/go.mod"
           cache: true
-          cache-dependency-path: "{{ matrix.folder }}/*.sum"
+          cache-dependency-path: "${{ matrix.folder }}/*.sum"
 
       - name: Run Go Build
         run: go build -v "./{{ matrix.folder }}/..."
@@ -49,17 +49,17 @@ jobs:
       - name: GolangCI Lint
         uses: golangci/golangci-lint-action@v7
         with:
-          working-directory: "{{ matrix.folder }}/"
+          working-directory: "${{ matrix.folder }}/"
           version: latest
 
       - name: StaticCheck
         uses: dominikh/staticcheck-action@v1
         with:
-          working-directory: "{{ matrix.folder }}/"
+          working-directory: "${{ matrix.folder }}/"
           version: latest
 
       - name: Run format-check
-        working-directory: "{{ matrix.folder }}/"
+        working-directory: "${{ matrix.folder }}/"
         run: |
           UNFORMATTED=$(gofmt -l .)
           if [ -n "$UNFORMATTED" ]; then
