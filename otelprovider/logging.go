@@ -110,7 +110,7 @@ func WithLogAutomaticEnv() LoggerOption {
 	return func(t *Logger) {
 		otelEndpoint := os.Getenv("OTEL_EXPORTER_OTLP_ENDPOINT")
 		if otelEndpoint == "" {
-			otelEndpoint = "localhost:4317"
+			return // if no endpoint is set, do not configure the exporter
 		}
 
 		otelInsecure := os.Getenv("OTEL_EXPORTER_OTLP_INSECURE") == "true"
