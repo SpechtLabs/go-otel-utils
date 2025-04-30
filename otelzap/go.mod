@@ -1,4 +1,4 @@
-module github.com/SpechtLabs/go-otel-utils/otelzap
+module github.com/spechtlabs/go-otel-utils/otelzap
 
 go 1.24.0
 

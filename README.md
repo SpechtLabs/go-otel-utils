@@ -34,10 +34,10 @@ Install the packages you need:
 
 ``` bash
 # For just the OpenTelemetry provider utilities
-go get github.com/SpechtLabs/go-otel-utils/otelprovider
+go get github.com/spechtlabs/go-otel-utils/otelprovider
 
 # For zap integration with OpenTelemetry
-go get github.com/SpechtLabs/go-otel-utils/otelzap
+go get github.com/spechtlabs/go-otel-utils/otelzap
 ```
 
 ## Getting Started
@@ -51,7 +51,7 @@ import (
     "context"
     "log"
 
-    "github.com/SpechtLabs/go-otel-utils/otelprovider"
+    "github.com/spechtlabs/go-otel-utils/otelprovider"
 )
 
 func main() {

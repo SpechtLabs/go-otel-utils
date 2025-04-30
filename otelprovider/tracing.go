@@ -5,7 +5,7 @@ import (
 	"os"
 	"strings"
 
-	"github.com/SpechtLabs/go-otel-utils/otelzap"
+	"github.com/spechtlabs/go-otel-utils/otelzap"
 	"go.opentelemetry.io/otel"
 	"go.opentelemetry.io/otel/exporters/otlp/otlptrace"
 	"go.opentelemetry.io/otel/exporters/otlp/otlptrace/otlptracegrpc"

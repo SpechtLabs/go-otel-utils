@@ -6,7 +6,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/SpechtLabs/go-otel-utils/otelzap"
+	"github.com/spechtlabs/go-otel-utils/otelzap"
 	"go.opentelemetry.io/otel/exporters/otlp/otlplog/otlploggrpc"
 	"go.opentelemetry.io/otel/exporters/otlp/otlplog/otlploghttp"
 	"go.opentelemetry.io/otel/log/global"

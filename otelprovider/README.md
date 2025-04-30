@@ -17,7 +17,7 @@ OTelProvider simplifies the process of configuring OpenTelemetry (OTel) in your 
 ## Installation
 
 ``` bash
-go get github.com/SpechtLabs/go-otel-utils/otelprovider
+go get github.com/spechtlabs/go-otel-utils/otelprovider
 ```
 
 ## Usage
@@ -31,7 +31,7 @@ import (
     "context"
     "log"
     
-    "github.com/SpechtLabs/go-otel-utils/otelprovider"
+    "github.com/spechtlabs/go-otel-utils/otelprovider"
 )
 
 func main() {

@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/SpechtLabs/go-otel-utils/otelprovider"
-	"github.com/SpechtLabs/go-otel-utils/otelzap"
+	"github.com/spechtlabs/go-otel-utils/otelprovider"
+	"github.com/spechtlabs/go-otel-utils/otelzap"
 	"go.uber.org/zap"
 )
 

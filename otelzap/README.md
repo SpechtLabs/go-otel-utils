@@ -8,7 +8,7 @@ in a `context.Context` as a first argument. It does not record anything if the c
 ## Installation
 
 ```shell
-go get github.com/SpechtLabs/go-otel-utils/otelzap
+go get github.com/spechtlabs/go-otel-utils/otelzap
 ```
 
 ## Usage
@@ -18,7 +18,7 @@ You need to create an `otelzap.Logger` using this package and pass a [context](h
 ```go
 import (
     "go.uber.org/zap"
-    "github.com/SpechtLabs/go-otel-utils/otelzap"
+    "github.com/spechtlabs/go-otel-utils/otelzap"
 )
 
 // Wrap zap logger to extend Zap with API that accepts a context.Context.
@@ -44,7 +44,7 @@ Just like Zap, otelzap provides a global logger that can be set with `otelzap.Re
 ```go
 import (
  "go.uber.org/zap"
- "github.com/SpechtLabs/go-otel-utils/otelzap"
+ "github.com/spechtlabs/go-otel-utils/otelzap"
 )
 
 func main() {
@@ -86,7 +86,7 @@ sugar.InfofContext(ctx, "Failed to fetch URL: %s", url)
 
 ## Options
 
-`otelzap.New`accepts a couple of [options](https://pkg.go.dev/github.com/SpechtLabs/go-otel-utils/otelzap#Option):
+`otelzap.New`accepts a couple of [options](https://pkg.go.dev/github.com/spechtlabs/go-otel-utils/otelzap#Option):
 
 - `otelzap.WithMinLevel(zap.WarnLevel)` sets the minimal zap logging level on which the log message is recorded on the span.
 - `otelzap.WithErrorStatusLevel(zap.ErrorLevel)` sets the minimal zap logging level on which the span status is set to codes.Error.

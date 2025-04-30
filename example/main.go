@@ -9,8 +9,8 @@ import (
 	"go.opentelemetry.io/otel"
 	"go.uber.org/zap"
 
-	"github.com/SpechtLabs/go-otel-utils/otelprovider"
-	"github.com/SpechtLabs/go-otel-utils/otelzap"
+	"github.com/spechtlabs/go-otel-utils/otelprovider"
+	"github.com/spechtlabs/go-otel-utils/otelzap"
 )
 
 func main() {
