@@ -2,7 +2,10 @@ package otelprovider
 
 import (
 	"context"
-	"github.com/SpechtLabs/otelzap"
+	"os"
+	"strings"
+
+	"github.com/SpechtLabs/go-otel-utils/otelzap"
 	"go.opentelemetry.io/otel"
 	"go.opentelemetry.io/otel/exporters/otlp/otlptrace"
 	"go.opentelemetry.io/otel/exporters/otlp/otlptrace/otlptracegrpc"
@@ -10,8 +13,6 @@ import (
 	"go.opentelemetry.io/otel/sdk/resource"
 	"go.opentelemetry.io/otel/sdk/trace"
 	"go.uber.org/zap"
-	"os"
-	"strings"
 )
 
 type Tracer struct {

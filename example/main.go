@@ -4,12 +4,13 @@ import (
 	"context"
 	"errors"
 	"fmt"
-	"go.opentelemetry.io/otel"
-	"go.uber.org/zap"
 	"os"
 
-	"github.com/SpechtLabs/otelprovider"
-	"github.com/SpechtLabs/otelzap"
+	"go.opentelemetry.io/otel"
+	"go.uber.org/zap"
+
+	"github.com/SpechtLabs/go-otel-utils/otelprovider"
+	"github.com/SpechtLabs/go-otel-utils/otelzap"
 )
 
 func main() {

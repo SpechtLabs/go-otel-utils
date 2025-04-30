@@ -2,16 +2,17 @@ package otelprovider
 
 import (
 	"context"
-	"github.com/SpechtLabs/otelzap"
+	"os"
+	"strings"
+	"time"
+
+	"github.com/SpechtLabs/go-otel-utils/otelzap"
 	"go.opentelemetry.io/otel/exporters/otlp/otlplog/otlploggrpc"
 	"go.opentelemetry.io/otel/exporters/otlp/otlplog/otlploghttp"
 	"go.opentelemetry.io/otel/log/global"
 	"go.opentelemetry.io/otel/sdk/log"
 	"go.opentelemetry.io/otel/sdk/resource"
 	"go.uber.org/zap"
-	"os"
-	"strings"
-	"time"
 )
 
 type Logger struct {

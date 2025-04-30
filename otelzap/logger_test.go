@@ -2,10 +2,11 @@ package otelzap_test
 
 import (
 	"fmt"
-	"github.com/SpechtLabs/otelprovider"
-	"github.com/SpechtLabs/otelzap"
-	"go.uber.org/zap"
 	"os"
+
+	"github.com/SpechtLabs/go-otel-utils/otelprovider"
+	"github.com/SpechtLabs/go-otel-utils/otelzap"
+	"go.uber.org/zap"
 )
 
 func ExampleNew() {

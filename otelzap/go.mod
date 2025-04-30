@@ -1,11 +1,11 @@
-module github.com/SpechtLabs/otelzap
+module github.com/SpechtLabs/go-otel-utils/otelzap
 
 go 1.24.0
 
-replace github.com/SpechtLabs/otelprovider => ./../otelprovider
+replace github.com/SpechtLabs/go-otel-utils/otelprovider => ./../otelprovider
 
 require (
-	github.com/SpechtLabs/otelprovider v0.0.0-00010101000000-000000000000
+	github.com/SpechtLabs/go-otel-utils/otelprovider v0.0.0-00010101000000-000000000000
 	go.opentelemetry.io/otel v1.35.0
 	go.opentelemetry.io/otel/log v0.11.0
 	go.opentelemetry.io/otel/trace v1.35.0

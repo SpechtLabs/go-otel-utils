@@ -1,10 +1,10 @@
-module github.com/SpechtLabs/otelzap/example
+module github.com/SpechtLabs/go-otel-utils/example
 
 go 1.24.0
 
-replace github.com/SpechtLabs/otelzap => ./../otelzap
+replace github.com/SpechtLabs/go-otel-utils/otelzap => ./../otelzap
 
-replace github.com/SpechtLabs/otelprovider => ./../otelprovider
+replace github.com/SpechtLabs/go-otel-utils/otelprovider => ./../otelprovider
 
 require (
 	github.com/SpechtLabs/otelprovider v0.0.0-00010101000000-000000000000
