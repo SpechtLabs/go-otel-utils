@@ -1,4 +1,4 @@
-package main
+package otelzap
 
 var V = "0.0.1"
 

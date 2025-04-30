@@ -1,4 +1,4 @@
-package main
+package otelzap
 
 import (
 	"encoding/json"
@@ -27,6 +27,8 @@ func Attribute(key string, value interface{}) attribute.KeyValue {
 		return attribute.Bool(key, value)
 	case fmt.Stringer:
 		return attribute.String(key, value.String())
+	case error:
+		return attribute.String(key, value.Error())
 	}
 
 	rv := reflect.ValueOf(value)
@@ -83,6 +85,8 @@ func LogValue(value interface{}) log.Value {
 		return log.BoolValue(value)
 	case fmt.Stringer:
 		return log.StringValue(value.String())
+	case error:
+		return log.StringValue(value.Error())
 	}
 
 	rv := reflect.ValueOf(value)

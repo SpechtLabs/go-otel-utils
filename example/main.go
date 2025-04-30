@@ -1,48 +1,108 @@
-package example
+package main
 
 import (
 	"context"
 	"errors"
-	"sync"
-
+	"fmt"
 	"go.opentelemetry.io/otel"
 	"go.uber.org/zap"
+	"os"
 
+	"github.com/SpechtLabs/otelprovider"
 	"github.com/SpechtLabs/otelzap"
 )
 
 func main() {
-	ctx := context.Background()
+	logProvider := otelprovider.NewLogger(
+		otelprovider.WithLogAutomaticEnv(),
+	)
 
-	// shutdown := otelplay.ConfigureOpentelemetry(ctx)
-	// defer shutdown()
+	traceProvider := otelprovider.NewTracer(
+		otelprovider.WithTraceAutomaticEnv(),
+	)
 
-	tracer := otel.Tracer("app_or_package_name")
+	// Initialize Logging
+	debug := os.Getenv("DEBUG") == "true"
+	var zapLogger *zap.Logger
+	var err error
+	if debug {
+		zapLogger, err = zap.NewDevelopment()
+	} else {
+		zapLogger, err = zap.NewProduction()
+	}
+	if err != nil {
+		fmt.Printf("failed to initialize logger: %v", err)
+		os.Exit(1)
+	}
 
-	ctx, span := tracer.Start(ctx, "root")
-	defer span.End()
+	// Replace zap global
+	undoZapGlobals := zap.ReplaceGlobals(zapLogger)
 
-	// Use Ctx to propagate the active span.
-	Logger(ctx).Error("hello from zap",
-		zap.Error(errors.New("hello world")),
-		zap.String("foo", "bar"))
+	// Redirect stdlib log to zap
+	undoStdLogRedirect := zap.RedirectStdLog(zapLogger)
 
-	// otelplay.PrintTraceID(ctx)
-}
+	// Create otelLogger
+	otelZapLogger := otelzap.New(zapLogger,
+		otelzap.WithCaller(true),
+		otelzap.WithMinLevel(zap.InfoLevel),
+		otelzap.WithAnnotateLevel(zap.WarnLevel),
+		otelzap.WithErrorStatusLevel(zap.ErrorLevel),
+		otelzap.WithStackTrace(false),
+		otelzap.WithLoggerProvider(logProvider),
+	)
 
-var (
-	once   sync.Once
-	logger *otelzap.Logger
-)
+	// Replace global otelZap logger
+	undoOtelZapGlobals := otelzap.ReplaceGlobals(otelZapLogger)
 
-// Logger ensures that the caller does not forget to pass the context.
-func Logger(ctx context.Context) otelzap.LoggerWithCtx {
-	once.Do(func() {
-		l, err := zap.NewDevelopment()
-		if err != nil {
+	defer func() {
+		if err := traceProvider.ForceFlush(context.Background()); err != nil {
+			otelzap.L().Warn("failed to flush traces")
+		}
+
+		if err := logProvider.ForceFlush(context.Background()); err != nil {
+			otelzap.L().Warn("failed to flush logs")
+		}
+
+		if err := traceProvider.Shutdown(context.Background()); err != nil {
 			panic(err)
 		}
-		logger = otelzap.New(l)
-	})
-	return logger.Ctx(ctx)
+
+		if err := logProvider.Shutdown(context.Background()); err != nil {
+			panic(err)
+		}
+
+		undoStdLogRedirect()
+		undoOtelZapGlobals()
+		undoZapGlobals()
+	}()
+
+	tracer := otel.Tracer("tracer")
+
+	ctx := context.Background()
+	baseCtx, baseSpan := tracer.Start(ctx, "root")
+	defer baseSpan.End()
+
+	debugCtx, debugSpan := tracer.Start(baseCtx, "debug")
+	otelzap.L().Sugar().Ctx(debugCtx).Debugw("hello from zap",
+		zap.Error(errors.New("hello world")),
+		zap.String("foo", "bar"))
+	debugSpan.End()
+
+	infoCtx, infoSpan := tracer.Start(baseCtx, "info")
+	otelzap.L().Sugar().Ctx(infoCtx).Infow("hello from zap",
+		zap.Error(errors.New("hello world")),
+		zap.String("foo", "bar"))
+	infoSpan.End()
+
+	warnCtx, warnSpan := tracer.Start(baseCtx, "warn")
+	otelzap.L().Sugar().Ctx(warnCtx).Warnw("hello from zap",
+		zap.Error(errors.New("hello world")),
+		zap.String("foo", "bar"))
+	warnSpan.End()
+
+	errorCtx, errorSpan := tracer.Start(baseCtx, "error")
+	otelzap.L().Sugar().Ctx(errorCtx).Errorw("hello from zap",
+		zap.Error(errors.New("hello world")),
+		zap.String("foo", "bar"))
+	errorSpan.End()
 }

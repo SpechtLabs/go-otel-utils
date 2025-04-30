@@ -1,4 +1,4 @@
-package main
+package otelzap
 
 import (
 	"go.opentelemetry.io/otel/log"
@@ -40,7 +40,7 @@ func WithSchemaURL(schemaURL string) Option {
 // WithMinLevel sets the minimal zap logging level on which the log message
 // is recorded on the span.
 //
-// The default is >= zap.WarnLevel.
+// The default is >= zap.InfoLevel.
 func WithMinLevel(lvl zapcore.Level) Option {
 	return func(l *Logger) {
 		l.minLevel = lvl
@@ -54,6 +54,16 @@ func WithMinLevel(lvl zapcore.Level) Option {
 func WithErrorStatusLevel(lvl zapcore.Level) Option {
 	return func(l *Logger) {
 		l.errorStatusLevel = lvl
+	}
+}
+
+// WithAnnotateLevel sets the minimal zap logging level on which
+// spans will be annotated with the log fields as metadata.
+//
+// The default is >= zap.InfoLevel.
+func WithAnnotateLevel(lvl zapcore.Level) Option {
+	return func(l *Logger) {
+		l.minAnnotateLevel = lvl
 	}
 }
 

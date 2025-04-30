@@ -1,4 +1,4 @@
-package main
+package otelzap
 
 import (
 	"go.uber.org/zap"
