@@ -3,7 +3,7 @@ module github.com/spechtlabs/go-otel-utils/otelprovider
 go 1.24.0
 
 require (
-	github.com/spechtlabs/go-otel-utils/otelzap v0.0.3
+	github.com/spechtlabs/go-otel-utils/otelzap v0.0.6
 	go.opentelemetry.io/otel v1.35.0
 	go.opentelemetry.io/otel/exporters/otlp/otlplog/otlploggrpc v0.11.0
 	go.opentelemetry.io/otel/exporters/otlp/otlplog/otlploghttp v0.11.0
@@ -17,6 +17,7 @@ require (
 )
 
 require (
+	github.com/aws/smithy-go v1.22.3 // indirect
 	github.com/cenkalti/backoff/v4 v4.3.0 // indirect
 	github.com/go-logr/logr v1.4.2 // indirect
 	github.com/go-logr/stdr v1.2.2 // indirect

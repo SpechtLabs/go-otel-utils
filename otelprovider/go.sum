@@ -1,3 +1,5 @@
+github.com/aws/smithy-go v1.22.3 h1:Z//5NuZCSW6R4PhQ93hShNbyBbn8BWCmCVCt+Q8Io5k=
+github.com/aws/smithy-go v1.22.3/go.mod h1:t1ufH5HMublsJYulve2RKmHDC15xu1f26kHCp/HgceI=
 github.com/cenkalti/backoff/v4 v4.3.0 h1:MyRJ/UdXutAwSAT+s3wNd7MfTIcy71VQueUuFK343L8=
 github.com/cenkalti/backoff/v4 v4.3.0/go.mod h1:Y3VNntkOUPxTVeUxJ/G5vcM//AlwfmyYozVcomhLiZE=
 github.com/davecgh/go-spew v1.1.1 h1:vj9j/u1bqnvCEfJOwUhtlOARqs3+rkHYY13jYWTU97c=
@@ -19,6 +21,8 @@ github.com/pmezard/go-difflib v1.0.0 h1:4DBwDE0NGyQoBHbLQYPwSUPoCMWR5BEzIk/f1lZb
 github.com/pmezard/go-difflib v1.0.0/go.mod h1:iKH77koFhYxTK1pcRnkKkqfTogsbg7gZNVY4sRDYZ/4=
 github.com/spechtlabs/go-otel-utils/otelzap v0.0.3 h1:DJxv/e5sb1QhzYvLdq0bHVwHseT01tkchH6xZefsGaQ=
 github.com/spechtlabs/go-otel-utils/otelzap v0.0.3/go.mod h1:ZsbZlzbYMBgPoqlr/pDHUUHnjrGDTHkIKaCiYZ7zZnc=
+github.com/spechtlabs/go-otel-utils/otelzap v0.0.6 h1:nCSqGF0phhIZCtF53YUgwfGVUhkFvyZv42xztioNSyw=
+github.com/spechtlabs/go-otel-utils/otelzap v0.0.6/go.mod h1:wYDKgGeOKyK5PVB+tfvkZovHm9VP6zEn+osJdKmepX8=
 github.com/stretchr/testify v1.10.0 h1:Xv5erBjTwe/5IxqUQTdXv5kgmIvbHo3QQyRwhJsOfJA=
 github.com/stretchr/testify v1.10.0/go.mod h1:r2ic/lqez/lEtzL7wO/rwa5dbSLXVDPFyf8C91i36aY=
 go.opentelemetry.io/auto/sdk v1.1.0 h1:cH53jehLUN6UFLY71z+NDOiNJqDdPRaXzTel0sJySYA=
