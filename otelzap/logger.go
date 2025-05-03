@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"runtime"
 
+	"github.com/aws/smithy-go/logging"
 	"go.opentelemetry.io/otel/codes"
 	"go.opentelemetry.io/otel/log"
 	"go.opentelemetry.io/otel/log/global"
@@ -144,6 +145,21 @@ func (l *Logger) PanicContext(ctx context.Context, msg string, fields ...zapcore
 func (l *Logger) FatalContext(ctx context.Context, msg string, fields ...zapcore.Field) {
 	fields = l.logFields(ctx, zap.FatalLevel, msg, fields)
 	l.skipCaller.Fatal(msg, fields...)
+}
+
+func (l *Logger) Logf(classification logging.Classification, format string, fields ...interface{}) {
+	msg := fmt.Sprintf(format, fields...)
+
+	switch classification {
+	case logging.Warn:
+		l.skipCaller.Warn(msg)
+
+	case logging.Debug:
+		l.skipCaller.Debug(msg)
+
+	default:
+		l.skipCaller.Info(msg)
+	}
 }
 
 func (l *Logger) logFields(
