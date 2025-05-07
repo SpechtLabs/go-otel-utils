@@ -2,8 +2,10 @@ package otelzap_test
 
 import (
 	"fmt"
+	"io/ioutil"
 	"os"
 
+	"github.com/sierrasoftworks/humane-errors-go"
 	"github.com/spechtlabs/go-otel-utils/otelprovider"
 	"github.com/spechtlabs/go-otel-utils/otelzap"
 	"go.uber.org/zap"
@@ -31,5 +33,14 @@ func ExampleNew() {
 		otelzap.WithLoggerProvider(logProvider),      // configures the logger to send logs via OTLP
 	)
 
-	otelZapLogger.Info("hello from zap", zap.String("foo", "bar"))
+	humane_err := humane.Wrap(
+		ioutil.WriteFile("demo.txt", []byte("This is an example"), os.ModePerm),
+		"We couldn't write the demo.txt file to the current directory.",
+		"Ensure you have write permissions to the current directory.",
+		"Make sure you have free space on your disk.",
+	)
+
+	otelZapLogger.WithError(humane_err).Info("hello from zap",
+		zap.String("foo", "bar"),
+	)
 }

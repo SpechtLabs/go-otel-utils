@@ -2,10 +2,12 @@ package otelzap
 
 import (
 	"context"
+	"errors"
 	"fmt"
 	"runtime"
 
 	"github.com/aws/smithy-go/logging"
+	"github.com/sierrasoftworks/humane-errors-go"
 	"go.opentelemetry.io/otel/codes"
 	"go.opentelemetry.io/otel/log"
 	"go.opentelemetry.io/otel/log/global"
@@ -33,7 +35,9 @@ type Logger struct {
 
 	// extraFields contains a number of zap.Fields that are added to every log entry
 	extraFields []zap.Field
-	callerDepth int
+	// extraFieldsOnce contains a number of zap.Fields that are added to only the next log entry
+	extraFieldsOnce []zap.Field
+	callerDepth     int
 }
 
 // New creates a new Logger instance with specified options and returns it along
@@ -81,6 +85,59 @@ func (l *Logger) WithOptions(opts ...zap.Option) *Logger {
 	clone.skipCaller = l.skipCaller.WithOptions(opts...)
 	clone.extraFields = append(clone.extraFields, extraFields...)
 	return &clone
+}
+
+// WithError adds a humane.Error to the logging context.
+//
+// For example,
+//
+//		 sugaredLogger.WithError(
+//	    humane.New("foo", "bar")
+//		)
+func (l *Logger) WithError(err error) *Logger {
+	var e humane.Error
+	if ok := errors.As(err, &e); !ok {
+		return l
+	}
+
+	ctx := struct {
+		Advice []string
+		Causes []error
+	}{
+		Advice: e.Advice(),
+		Causes: []error{},
+	}
+
+	var cause error
+	if e, ok := err.(interface {
+		Cause() error
+	}); ok {
+		cause = e.Cause()
+	}
+
+	for cause != nil {
+		ctx.Causes = append(ctx.Causes, cause)
+
+		if cause, ok := e.Cause().(interface {
+			Advice() []string
+		}); ok {
+			ctx.Advice = append(cause.Advice(), ctx.Advice...)
+		}
+
+		cause = errors.Unwrap(cause)
+	}
+
+	zapFields := make([]zap.Field, 0)
+	zapFields = append(zapFields, zap.Errors("causes", ctx.Causes))
+	zapFields = append(zapFields, zap.Strings("advice", ctx.Advice))
+	zapFields = append(zapFields, zap.Error(err))
+
+	return l.With(zapFields...)
+}
+
+func (l *Logger) With(fields ...zap.Field) *Logger {
+	l.extraFieldsOnce = append(l.extraFieldsOnce, fields...)
+	return l
 }
 
 // Sugar wraps the Logger to provide a more ergonomic, but slightly slower,
@@ -167,6 +224,11 @@ func (l *Logger) logFields(
 ) []zapcore.Field {
 	if len(l.extraFields) > 0 {
 		fields = append(fields, l.extraFields...)
+	}
+
+	if len(l.extraFieldsOnce) > 0 {
+		fields = append(fields, l.extraFieldsOnce...)
+		l.extraFieldsOnce = make([]zap.Field, 0)
 	}
 
 	if lvl >= l.minLevel {
