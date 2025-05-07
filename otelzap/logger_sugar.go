@@ -2,12 +2,10 @@ package otelzap
 
 import (
 	"context"
-	"errors"
 	"fmt"
 	"math"
 	"time"
 
-	"github.com/sierrasoftworks/humane-errors-go"
 	"go.opentelemetry.io/otel/log"
 	"go.uber.org/zap"
 	"go.uber.org/zap/zapcore"

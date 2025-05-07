@@ -2,7 +2,6 @@ package otelzap_test
 
 import (
 	"fmt"
-	"io/ioutil"
 	"os"
 
 	"github.com/sierrasoftworks/humane-errors-go"
@@ -34,7 +33,7 @@ func ExampleNew() {
 	)
 
 	humane_err := humane.Wrap(
-		ioutil.WriteFile("demo.txt", []byte("This is an example"), os.ModePerm),
+		os.WriteFile("demo.txt", []byte("This is an example"), os.ModePerm),
 		"We couldn't write the demo.txt file to the current directory.",
 		"Ensure you have write permissions to the current directory.",
 		"Make sure you have free space on your disk.",
