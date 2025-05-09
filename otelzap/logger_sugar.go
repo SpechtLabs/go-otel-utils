@@ -3,10 +3,7 @@ package otelzap
 import (
 	"context"
 	"fmt"
-	"math"
-	"time"
 
-	"go.opentelemetry.io/otel/log"
 	"go.uber.org/zap"
 	"go.uber.org/zap/zapcore"
 )
@@ -131,9 +128,9 @@ func (s *SugaredLogger) logArgs(
 		return
 	}
 
-	kvs := make([]log.KeyValue, 0, 1+numExtraAttr)
-	kvs = append(kvs, log.String("log.template", template))
-	s.l.log(ctx, lvl, fmt.Sprintf(template, args...), kvs)
+	kvs := make([]zapcore.Field, 0, 1+numExtraAttr)
+	kvs = append(kvs, zap.String("log.template", template))
+	s.l.LogContext(ctx, lvl, fmt.Sprintf(template, args...), kvs...)
 }
 
 // Debugw logs a message with some additional context. The variadic key-value
@@ -207,7 +204,7 @@ func (s *SugaredLogger) logKVs(
 		return
 	}
 
-	kvs := make([]log.KeyValue, 0, len(args)/2)
+	kvs := make([]zapcore.Field, 0, len(args)/2)
 
 	for i := 0; i < len(args); i++ {
 		field := args[i]
@@ -216,47 +213,16 @@ func (s *SugaredLogger) logKVs(
 
 		// in case it's a zapcore.Field we know that key and value are encoded in the zapcore.Field
 		case zapcore.Field:
-			var value interface{}
-
-			switch field.Type {
-			case zapcore.Int64Type, zapcore.Uint64Type:
-				value = field.Integer
-			case zapcore.StringType:
-				value = field.String
-			case zapcore.BoolType:
-				value = (field.Integer == 1) // Bool values are stored as integer 1 (true) or 0 (false).
-			case zapcore.Float64Type, zapcore.Float32Type:
-				// Convert integer bit pattern to float based on size.
-				value = math.Float64frombits(uint64(field.Integer))
-			case zapcore.TimeType, zapcore.TimeFullType:
-				// Time is stored in the integer as UnixNano.
-				value = time.Unix(0, field.Integer)
-			case zapcore.DurationType:
-				value = time.Duration(field.Integer)
-			case zapcore.StringerType, zapcore.ErrorType, zapcore.ReflectType, zapcore.ObjectMarshalerType:
-				// These types use Interface.
-				value = field.Interface
-			default:
-				// Handle other types or fallback types here.
-				value = nil
-			}
-
-			kvs = append(kvs, log.KeyValue{
-				Key:   field.Key,
-				Value: LogValue(value),
-			})
+			kvs = append(kvs, field)
 
 		// in case it's a string, we assume it's key + value separate
 		case string:
-			kvs = append(kvs, log.KeyValue{
-				Key:   field,
-				Value: LogValue(args[i+1]),
-			})
+			kvs = append(kvs, zap.Any(field, args[i+1]))
 
 			// Also increment i because we just read args[i+1]
 			i += 1
 		}
 	}
 
-	s.l.log(ctx, lvl, msg, kvs)
+	s.l.LogContext(ctx, lvl, msg, kvs...)
 }

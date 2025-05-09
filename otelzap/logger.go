@@ -4,14 +4,11 @@ import (
 	"context"
 	"errors"
 	"fmt"
-	"runtime"
 
 	"github.com/aws/smithy-go/logging"
 	"github.com/sierrasoftworks/humane-errors-go"
-	"go.opentelemetry.io/otel/codes"
 	"go.opentelemetry.io/otel/log"
 	"go.opentelemetry.io/otel/log/global"
-	"go.opentelemetry.io/otel/trace"
 	"go.uber.org/zap"
 	"go.uber.org/zap/zapcore"
 )
@@ -95,42 +92,28 @@ func (l *Logger) WithOptions(opts ...zap.Option) *Logger {
 //	    humane.New("foo", "bar")
 //		)
 func (l *Logger) WithError(err error) *Logger {
-	var e humane.Error
-	if ok := errors.As(err, &e); !ok {
-		return l
-	}
+	zapFields := make([]zap.Field, 0)
+	zapFields = append(zapFields, zap.Error(err))
 
-	ctx := struct {
-		Advice []string
-		Causes []error
-	}{
-		Advice: e.Advice(),
-		Causes: []error{},
-	}
-
-	var cause error
-	if e, ok := err.(interface {
-		Cause() error
-	}); ok {
-		cause = e.Cause()
-	}
-
-	for cause != nil {
-		ctx.Causes = append(ctx.Causes, cause)
-
-		if cause, ok := e.Cause().(interface {
-			Advice() []string
-		}); ok {
-			ctx.Advice = append(cause.Advice(), ctx.Advice...)
+	advice := make([]string, 0)
+	causes := make([]error, 0)
+	for err != nil {
+		var herr humane.Error
+		if ok := errors.As(err, &herr); ok {
+			causes = append(causes, err)
+			advice = append(advice, herr.Advice()...)
 		}
 
-		cause = errors.Unwrap(cause)
+		err = errors.Unwrap(err)
 	}
 
-	zapFields := make([]zap.Field, 0)
-	zapFields = append(zapFields, zap.Errors("causes", ctx.Causes))
-	zapFields = append(zapFields, zap.Strings("advice", ctx.Advice))
-	zapFields = append(zapFields, zap.Error(err))
+	if len(advice) > 0 {
+		zapFields = append(zapFields, zap.Strings("error_advice", advice))
+	}
+
+	if len(causes) > 1 {
+		zapFields = append(zapFields, zap.Errors("error_causes", causes[1:]))
+	}
 
 	return l.With(zapFields...)
 }
@@ -169,39 +152,104 @@ func (l *Logger) Ctx(ctx context.Context) LoggerWithCtx {
 	}
 }
 
-func (l *Logger) DebugContext(ctx context.Context, msg string, fields ...zapcore.Field) {
-	fields = l.logFields(ctx, zap.DebugLevel, msg, fields)
+// Log logs a message at the specified level. The message includes any fields
+// passed at the log site, as well as any fields accumulated on the logger.
+// Any Fields that require  evaluation (such as Objects) are evaluated upon
+// invocation of Log.
+func (l *Logger) Log(lvl zapcore.Level, msg string, fields ...zapcore.Field) {
+	fields = l.logFields(fields)
+	l.skipCaller.Log(lvl, msg, fields...)
+}
+
+// Debug logs a message at DebugLevel. The message includes any fields passed
+// at the log site, as well as any fields accumulated on the logger.
+func (l *Logger) Debug(msg string, fields ...zapcore.Field) {
+	fields = l.logFields(fields)
 	l.skipCaller.Debug(msg, fields...)
 }
 
-func (l *Logger) InfoContext(ctx context.Context, msg string, fields ...zapcore.Field) {
-	fields = l.logFields(ctx, zap.InfoLevel, msg, fields)
+// Info logs a message at InfoLevel. The message includes any fields passed
+// at the log site, as well as any fields accumulated on the logger.
+func (l *Logger) Info(msg string, fields ...zapcore.Field) {
+	fields = l.logFields(fields)
 	l.skipCaller.Info(msg, fields...)
 }
 
-func (l *Logger) WarnContext(ctx context.Context, msg string, fields ...zapcore.Field) {
-	fields = l.logFields(ctx, zap.WarnLevel, msg, fields)
+// Warn logs a message at WarnLevel. The message includes any fields passed
+// at the log site, as well as any fields accumulated on the logger.
+func (l *Logger) Warn(msg string, fields ...zapcore.Field) {
+	fields = l.logFields(fields)
 	l.skipCaller.Warn(msg, fields...)
 }
 
-func (l *Logger) ErrorContext(ctx context.Context, msg string, fields ...zapcore.Field) {
-	fields = l.logFields(ctx, zap.ErrorLevel, msg, fields)
+// Error logs a message at ErrorLevel. The message includes any fields passed
+// at the log site, as well as any fields accumulated on the logger.
+func (l *Logger) Error(msg string, fields ...zapcore.Field) {
+	fields = l.logFields(fields)
 	l.skipCaller.Error(msg, fields...)
 }
 
-func (l *Logger) DPanicContext(ctx context.Context, msg string, fields ...zapcore.Field) {
-	fields = l.logFields(ctx, zap.DPanicLevel, msg, fields)
+// DPanic logs a message at DPanicLevel. The message includes any fields
+// passed at the log site, as well as any fields accumulated on the logger.
+//
+// If the logger is in development mode, it then panics (DPanic means
+// "development panic"). This is useful for catching errors that are
+// recoverable, but shouldn't ever happen.
+func (l *Logger) DPanic(msg string, fields ...zapcore.Field) {
+	fields = l.logFields(fields)
 	l.skipCaller.DPanic(msg, fields...)
 }
 
-func (l *Logger) PanicContext(ctx context.Context, msg string, fields ...zapcore.Field) {
-	fields = l.logFields(ctx, zap.PanicLevel, msg, fields)
+// Panic logs a message at PanicLevel. The message includes any fields passed
+// at the log site, as well as any fields accumulated on the logger.
+//
+// The logger then panics, even if logging at PanicLevel is disabled.
+func (l *Logger) Panic(msg string, fields ...zapcore.Field) {
+	fields = l.logFields(fields)
 	l.skipCaller.Panic(msg, fields...)
 }
 
-func (l *Logger) FatalContext(ctx context.Context, msg string, fields ...zapcore.Field) {
-	fields = l.logFields(ctx, zap.FatalLevel, msg, fields)
+// Fatal logs a message at FatalLevel. The message includes any fields passed
+// at the log site, as well as any fields accumulated on the logger.
+//
+// The logger then calls os.Exit(1), even if logging at FatalLevel is
+// disabled.
+func (l *Logger) Fatal(msg string, fields ...zapcore.Field) {
+	fields = l.logFields(fields)
 	l.skipCaller.Fatal(msg, fields...)
+}
+
+func (l *Logger) LogContext(ctx context.Context, lvl zapcore.Level, msg string, fields ...zapcore.Field) {
+	fields = l.logFields(fields)
+	l.Ctx(ctx).l.skipCaller.Log(lvl, msg, fields...)
+}
+
+func (l *Logger) DebugContext(ctx context.Context, msg string, fields ...zapcore.Field) {
+	l.Ctx(ctx).l.skipCaller.Debug(msg, fields...)
+}
+
+func (l *Logger) InfoContext(ctx context.Context, msg string, fields ...zapcore.Field) {
+	l.Ctx(ctx).l.skipCaller.Info(msg, fields...)
+}
+
+func (l *Logger) WarnContext(ctx context.Context, msg string, fields ...zapcore.Field) {
+	l.Ctx(ctx).l.skipCaller.Warn(msg, fields...)
+}
+
+func (l *Logger) ErrorContext(ctx context.Context, msg string, fields ...zapcore.Field) {
+	l.Ctx(ctx).l.skipCaller.Error(msg, fields...)
+}
+
+func (l *Logger) DPanicContext(ctx context.Context, msg string, fields ...zapcore.Field) {
+	l.Ctx(ctx).l.skipCaller.DPanic(msg, fields...)
+}
+
+func (l *Logger) PanicContext(ctx context.Context, msg string, fields ...zapcore.Field) {
+	l.Ctx(ctx).l.skipCaller.Panic(msg, fields...)
+}
+
+func (l *Logger) FatalContext(ctx context.Context, msg string, fields ...zapcore.Field) {
+	l.Ctx(ctx).l.skipCaller.Fatal(msg, fields...)
 }
 
 func (l *Logger) Logf(classification logging.Classification, format string, fields ...interface{}) {
@@ -219,9 +267,7 @@ func (l *Logger) Logf(classification logging.Classification, format string, fiel
 	}
 }
 
-func (l *Logger) logFields(
-	ctx context.Context, lvl zapcore.Level, msg string, fields []zapcore.Field,
-) []zapcore.Field {
+func (l *Logger) logFields(fields []zapcore.Field) []zapcore.Field {
 	if len(l.extraFields) > 0 {
 		fields = append(fields, l.extraFields...)
 	}
@@ -231,55 +277,5 @@ func (l *Logger) logFields(
 		l.extraFieldsOnce = make([]zap.Field, 0)
 	}
 
-	if lvl >= l.minLevel {
-		l.log(ctx, lvl, msg, convertFields(fields))
-	}
 	return fields
-}
-
-func (l *Logger) log(
-	ctx context.Context, lvl zapcore.Level, msg string, kvs []log.KeyValue,
-) {
-	if lvl >= l.minAnnotateLevel || lvl >= l.errorStatusLevel {
-		if span := trace.SpanFromContext(ctx); span.IsRecording() {
-			if lvl >= l.minAnnotateLevel {
-				for _, kv := range kvs {
-					span.SetAttributes(Attribute(kv.Key, kv.Value))
-				}
-			}
-
-			if lvl >= l.errorStatusLevel {
-				span.SetStatus(codes.Error, msg)
-				span.RecordError(fmt.Errorf("%s", msg))
-			}
-		}
-	}
-
-	record := log.Record{}
-	record.SetBody(log.StringValue(msg))
-	record.SetSeverity(convertLevel(lvl))
-
-	if l.caller {
-		if fn, file, line, ok := runtimeCaller(4 + l.callerDepth); ok {
-			if fn != "" {
-				kvs = append(kvs, log.String("code.function", fn))
-			}
-			if file != "" {
-				kvs = append(kvs, log.String("code.filepath", file))
-				kvs = append(kvs, log.Int("code.lineno", line))
-			}
-		}
-	}
-
-	if l.stackTrace {
-		stackTrace := make([]byte, 2048)
-		n := runtime.Stack(stackTrace, false)
-		kvs = append(kvs, log.String("exception.stacktrace", string(stackTrace[:n])))
-	}
-
-	if len(kvs) > 0 {
-		record.AddAttributes(kvs...)
-	}
-
-	l.otelLogger.Emit(ctx, record)
 }
