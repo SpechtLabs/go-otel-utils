@@ -1,6 +1,6 @@
 module github.com/spechtlabs/go-otel-utils/otelzap
 
-go 1.24.0
+go 1.23.0
 
 require (
 	github.com/aws/smithy-go v1.22.3
