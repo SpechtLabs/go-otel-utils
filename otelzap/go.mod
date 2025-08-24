@@ -3,20 +3,20 @@ module github.com/spechtlabs/go-otel-utils/otelzap
 go 1.23.0
 
 require (
-	github.com/aws/smithy-go v1.22.3
-	github.com/sierrasoftworks/humane-errors-go v0.0.0-20250507223502-4bb667dc1e16
+	github.com/aws/smithy-go v1.22.5
+	github.com/sierrasoftworks/humane-errors-go v0.0.0-20250811205537-5f14a04ebff5
 	github.com/spechtlabs/go-otel-utils/otelprovider v0.0.10
 	github.com/stretchr/testify v1.10.0
-	go.opentelemetry.io/otel v1.36.0
-	go.opentelemetry.io/otel/log v0.12.2
-	go.opentelemetry.io/otel/trace v1.36.0
+	go.opentelemetry.io/otel v1.37.0
+	go.opentelemetry.io/otel/log v0.13.0
+	go.opentelemetry.io/otel/trace v1.37.0
 	go.uber.org/zap v1.27.0
 )
 
 require (
 	github.com/cenkalti/backoff/v4 v4.3.0 // indirect
 	github.com/davecgh/go-spew v1.1.1 // indirect
-	github.com/go-logr/logr v1.4.2 // indirect
+	github.com/go-logr/logr v1.4.3 // indirect
 	github.com/go-logr/stdr v1.2.2 // indirect
 	github.com/google/uuid v1.6.0 // indirect
 	github.com/grpc-ecosystem/grpc-gateway/v2 v2.26.1 // indirect
@@ -27,11 +27,11 @@ require (
 	go.opentelemetry.io/otel/exporters/otlp/otlptrace v1.35.0 // indirect
 	go.opentelemetry.io/otel/exporters/otlp/otlptrace/otlptracegrpc v1.35.0 // indirect
 	go.opentelemetry.io/otel/exporters/otlp/otlptrace/otlptracehttp v1.35.0 // indirect
-	go.opentelemetry.io/otel/metric v1.36.0 // indirect
+	go.opentelemetry.io/otel/metric v1.37.0 // indirect
 	go.opentelemetry.io/otel/sdk v1.35.0 // indirect
 	go.opentelemetry.io/otel/sdk/log v0.11.0 // indirect
 	go.opentelemetry.io/proto/otlp v1.5.0 // indirect
-	go.uber.org/multierr v1.10.0 // indirect
+	go.uber.org/multierr v1.11.0 // indirect
 	golang.org/x/net v0.35.0 // indirect
 	golang.org/x/sys v0.30.0 // indirect
 	golang.org/x/text v0.22.0 // indirect
