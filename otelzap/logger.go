@@ -102,6 +102,8 @@ func (l *Logger) WithError(err error) *Logger {
 		if ok := errors.As(err, &herr); ok {
 			causes = append(causes, err)
 			advice = append(advice, herr.Advice()...)
+		} else {
+			causes = append(causes, err)
 		}
 
 		err = errors.Unwrap(err)
