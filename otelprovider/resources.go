@@ -1,10 +1,11 @@
 package otelprovider
 
 import (
-	"go.opentelemetry.io/otel/sdk/resource"
-	semconv "go.opentelemetry.io/otel/semconv/v1.34.0"
 	"os"
 	"path/filepath"
+
+	"go.opentelemetry.io/otel/sdk/resource"
+	semconv "go.opentelemetry.io/otel/semconv/v1.37.0"
 )
 
 func newOtelResources() *resource.Resource {
@@ -23,7 +24,6 @@ func newOtelResources() *resource.Resource {
 			semconv.ServiceName(serviceName),
 			semconv.ServiceVersion(serviceVersion),
 		))
-
 	if err != nil {
 		panic(err)
 	}
