@@ -23,6 +23,8 @@ github.com/sierrasoftworks/humane-errors-go v0.0.0-20250811205537-5f14a04ebff5 h
 github.com/sierrasoftworks/humane-errors-go v0.0.0-20250811205537-5f14a04ebff5/go.mod h1:CbJLj9L1qHdzLg4YRh2Lzr0noe9pR6QrVEqfLbITRKw=
 github.com/spechtlabs/go-otel-utils/otelzap v0.0.11 h1:D3jzku3MMLMt/CgI++Zk3TE/mnQWz9dI9y/sCBb60OA=
 github.com/spechtlabs/go-otel-utils/otelzap v0.0.11/go.mod h1:Bk/uRNkU1/MsMc2J1NUxF+0lRNDbUUIulioJevLYM74=
+github.com/spechtlabs/go-otel-utils/otelzap v0.0.15 h1:LPo3vmPRVTQDG/ic2r4q1t9irptnffRRTEpaLYjbguo=
+github.com/spechtlabs/go-otel-utils/otelzap v0.0.15/go.mod h1:0LC7Tzo53EdZ0FY6dUMDDkDmimphYDbjqIg+BY5MJjk=
 github.com/stretchr/testify v1.11.1 h1:7s2iGBzp5EwR7/aIZr8ao5+dra3wiQyKjjFuvgVKu7U=
 github.com/stretchr/testify v1.11.1/go.mod h1:wZwfW3scLgRK+23gO65QZefKpKQRnfz6sD981Nm4B6U=
 go.opentelemetry.io/auto/sdk v1.1.0 h1:cH53jehLUN6UFLY71z+NDOiNJqDdPRaXzTel0sJySYA=
