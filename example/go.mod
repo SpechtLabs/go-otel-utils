@@ -7,7 +7,7 @@ replace github.com/spechtlabs/go-otel-utils/otelprovider => ../otelprovider
 replace github.com/spechtlabs/go-otel-utils/otelzap => ../otelzap
 
 require (
-	github.com/spechtlabs/go-otel-utils/otelprovider v0.0.11
+	github.com/spechtlabs/go-otel-utils/otelprovider v0.0.15
 	github.com/spechtlabs/go-otel-utils/otelzap v0.0.15
 	go.opentelemetry.io/otel v1.38.0
 	go.uber.org/zap v1.27.0
@@ -20,7 +20,7 @@ require (
 	github.com/go-logr/stdr v1.2.2 // indirect
 	github.com/google/uuid v1.6.0 // indirect
 	github.com/grpc-ecosystem/grpc-gateway/v2 v2.27.2 // indirect
-	github.com/sierrasoftworks/humane-errors-go v0.0.0-20250811205537-5f14a04ebff5 // indirect
+	github.com/sierrasoftworks/humane-errors-go v0.0.0-20250904141959-2224f06cddb4 // indirect
 	go.opentelemetry.io/auto/sdk v1.1.0 // indirect
 	go.opentelemetry.io/otel/exporters/otlp/otlplog/otlploggrpc v0.13.0 // indirect
 	go.opentelemetry.io/otel/exporters/otlp/otlplog/otlploghttp v0.13.0 // indirect
