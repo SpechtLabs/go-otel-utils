@@ -43,6 +43,8 @@ github.com/sierrasoftworks/humane-errors-go v0.0.0-20250811205537-5f14a04ebff5 h
 github.com/sierrasoftworks/humane-errors-go v0.0.0-20250811205537-5f14a04ebff5/go.mod h1:CbJLj9L1qHdzLg4YRh2Lzr0noe9pR6QrVEqfLbITRKw=
 github.com/sierrasoftworks/humane-errors-go v0.0.0-20250904141959-2224f06cddb4 h1:DhtzIOyKx70jgHIK0kb4eAbot9b/lko8EpPiDxbEtgo=
 github.com/sierrasoftworks/humane-errors-go v0.0.0-20250904141959-2224f06cddb4/go.mod h1:p4jbkjZuTzb8snmKhhMJJwPjAwO5fh8UZ2Gkstwt71k=
+github.com/sierrasoftworks/humane-errors-go v0.0.0-20260428132744-178d2d0aad2c h1:TlFCGManXBbR+EBc2Nxe/NwnUDoUzBRCaArLrmYJM5A=
+github.com/sierrasoftworks/humane-errors-go v0.0.0-20260428132744-178d2d0aad2c/go.mod h1:98WJMvl0Bvx/4pvShkeT0281OIJX6u6t1khQnMXjctg=
 github.com/spechtlabs/go-otel-utils/otelprovider v0.0.8 h1:QE5n0ReT+dpMGyJH1z8RD5GrzkxF3ZsYwNcrUJw6nPA=
 github.com/spechtlabs/go-otel-utils/otelprovider v0.0.8/go.mod h1:eXwaYnplhrfg/WXkIQ8ziC68Xa4wR7C0RilMBVpU9nM=
 github.com/spechtlabs/go-otel-utils/otelprovider v0.0.10 h1:Q5p+5KGA587GfzR6FdXGje4XBfxhi1u4NSu6lSnWCGA=
@@ -127,6 +129,8 @@ go.uber.org/multierr v1.11.0 h1:blXXJkSxSSfBVBlC76pxqeO+LN3aDfLQo+309xJstO0=
 go.uber.org/multierr v1.11.0/go.mod h1:20+QtiLqy0Nd6FdQB9TLXag12DsQkrbs3htMFfDN80Y=
 go.uber.org/zap v1.27.0 h1:aJMhYGrd5QSmlpLMr2MftRKl7t8J8PTZPA732ud/XR8=
 go.uber.org/zap v1.27.0/go.mod h1:GB2qFLM7cTU87MWRP2mPIjqfIDnGu+VIO4V/SdhGo2E=
+go.uber.org/zap v1.28.0 h1:IZzaP1Fv73/T/pBMLk4VutPl36uNC+OSUh3JLG3FIjo=
+go.uber.org/zap v1.28.0/go.mod h1:rDLpOi171uODNm/mxFcuYWxDsqWSAVkFdX4XojSKg/Q=
 golang.org/x/net v0.35.0 h1:T5GQRQb2y08kTAByq9L4/bz8cipCdA8FbRTXewonqY8=
 golang.org/x/net v0.35.0/go.mod h1:EglIi67kWsHKlRzzVMUD93VMSWGFOMSZgxFjparz1Qk=
 golang.org/x/net v0.43.0 h1:lat02VYK2j4aLzMzecihNvTlJNQUq316m2Mr9rnM6YE=

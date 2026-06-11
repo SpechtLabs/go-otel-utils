@@ -4,13 +4,13 @@ go 1.23.0
 
 require (
 	github.com/aws/smithy-go v1.23.0
-	github.com/sierrasoftworks/humane-errors-go v0.0.0-20250904141959-2224f06cddb4
+	github.com/sierrasoftworks/humane-errors-go v0.0.0-20260428132744-178d2d0aad2c
 	github.com/spechtlabs/go-otel-utils/otelprovider v0.0.15
 	github.com/stretchr/testify v1.11.1
 	go.opentelemetry.io/otel v1.38.0
 	go.opentelemetry.io/otel/log v0.13.0
 	go.opentelemetry.io/otel/trace v1.38.0
-	go.uber.org/zap v1.27.0
+	go.uber.org/zap v1.28.0
 )
 
 require (
