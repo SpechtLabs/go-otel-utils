@@ -1,5 +1,7 @@
 github.com/aws/smithy-go v1.23.0 h1:8n6I3gXzWJB2DxBDnfxgBaSX6oe0d/t10qGz7OKqMCE=
 github.com/aws/smithy-go v1.23.0/go.mod h1:t1ufH5HMublsJYulve2RKmHDC15xu1f26kHCp/HgceI=
+github.com/aws/smithy-go v1.27.2 h1:y9NPmSE6am6LjEFPfqHqG/jJk7AauQvhCJONKh7kpzk=
+github.com/aws/smithy-go v1.27.2/go.mod h1:YE2RhdIuDbA5E5bTdciG9KrW3+TiEONeUWCqxX9i1Fc=
 github.com/cenkalti/backoff/v5 v5.0.3 h1:ZN+IMa753KfX5hd8vVaMixjnqRZ3y8CuJKRKj1xcsSM=
 github.com/cenkalti/backoff/v5 v5.0.3/go.mod h1:rkhZdG3JZukswDf7f0cwqPNk4K0sa+F97BxZthm/crw=
 github.com/cespare/xxhash/v2 v2.3.0 h1:UL815xU9SqsFlibzuggzjXhog7bL6oX9BbNZnL2UFvs=
@@ -23,8 +25,12 @@ github.com/pmezard/go-difflib v1.0.0 h1:4DBwDE0NGyQoBHbLQYPwSUPoCMWR5BEzIk/f1lZb
 github.com/pmezard/go-difflib v1.0.0/go.mod h1:iKH77koFhYxTK1pcRnkKkqfTogsbg7gZNVY4sRDYZ/4=
 github.com/sierrasoftworks/humane-errors-go v0.0.0-20250904141959-2224f06cddb4 h1:DhtzIOyKx70jgHIK0kb4eAbot9b/lko8EpPiDxbEtgo=
 github.com/sierrasoftworks/humane-errors-go v0.0.0-20250904141959-2224f06cddb4/go.mod h1:p4jbkjZuTzb8snmKhhMJJwPjAwO5fh8UZ2Gkstwt71k=
+github.com/sierrasoftworks/humane-errors-go v0.0.0-20260428132744-178d2d0aad2c h1:TlFCGManXBbR+EBc2Nxe/NwnUDoUzBRCaArLrmYJM5A=
+github.com/sierrasoftworks/humane-errors-go v0.0.0-20260428132744-178d2d0aad2c/go.mod h1:98WJMvl0Bvx/4pvShkeT0281OIJX6u6t1khQnMXjctg=
 github.com/spechtlabs/go-otel-utils/otelzap v0.1.0 h1:g5PiY+k3irpbu00Z9TU1s93Q93V+0LgBjnt6g6uGAoQ=
 github.com/spechtlabs/go-otel-utils/otelzap v0.1.0/go.mod h1:OoKXeYy9KbertnrfhMVoKtxQ2nrb2I39hcOMmOuY/pY=
+github.com/spechtlabs/go-otel-utils/otelzap v0.1.1 h1:r1BvyHP+IIKWGQaztgKg/Rvcmrx+NkPdHJ8tVVAwZzg=
+github.com/spechtlabs/go-otel-utils/otelzap v0.1.1/go.mod h1:wC19xTMM6RWAE6m+akPbBWGDCDYUHzcfz9ey+JJzW5E=
 github.com/stretchr/testify v1.11.1 h1:7s2iGBzp5EwR7/aIZr8ao5+dra3wiQyKjjFuvgVKu7U=
 github.com/stretchr/testify v1.11.1/go.mod h1:wZwfW3scLgRK+23gO65QZefKpKQRnfz6sD981Nm4B6U=
 go.opentelemetry.io/auto/sdk v1.2.1 h1:jXsnJ4Lmnqd11kwkBV2LgLoFMZKizbCi5fNZ/ipaZ64=
