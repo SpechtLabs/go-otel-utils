@@ -12,7 +12,9 @@ on:
     branches:
       - main
     paths:
-      - src/**/*
+      - '**/*.go'
+      - '**/go.mod'
+      - '**/go.sum'
       - .github/workflows/**
 
 permissions:
