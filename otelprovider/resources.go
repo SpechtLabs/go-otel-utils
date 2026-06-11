@@ -19,13 +19,22 @@ func newOtelResources() *resource.Resource {
 		serviceVersion = "0.0.0-unset"
 	}
 
+	// Build our attributes as a schemaless resource (no schema URL) rather than
+	// pinning a specific semconv schema. resource.Merge rejects two resources
+	// with different, non-empty schema URLs — and resource.Default()'s schema
+	// advances with every OTel SDK release. A schemaless resource carries no
+	// schema URL, so the merge always succeeds and inherits Default()'s schema,
+	// regardless of which SDK version the consumer builds against.
 	res, err := resource.Merge(resource.Default(),
-		resource.NewWithAttributes(semconv.SchemaURL,
+		resource.NewSchemaless(
 			semconv.ServiceName(serviceName),
 			semconv.ServiceVersion(serviceVersion),
 		))
 	if err != nil {
-		panic(err)
+		// Merge only errors on conflicting schema URLs, which a schemaless
+		// resource cannot trigger; treat any future error as non-fatal and
+		// fall back to the default resource instead of crashing init.
+		return resource.Default()
 	}
 
 	return res
