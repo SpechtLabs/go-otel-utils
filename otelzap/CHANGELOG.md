@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.1.1](https://github.com/SpechtLabs/go-otel-utils/compare/otelzap/v0.1.0...otelzap/v0.1.1) (2026-06-11)
+
+
+### Bug Fixes
+
+* **deps:** bump otel to 1.44, zap 1.28, smithy 1.27 and inter-module deps to v0.1.0 ([5ca776f](https://github.com/SpechtLabs/go-otel-utils/commit/5ca776f807b57c8fa4133c6c353978b49906d5ab))
+
 ## [0.0.16](https://github.com/SpechtLabs/go-otel-utils/compare/otelzap/v0.0.15...otelzap/v0.0.16) (2026-06-11)
 
 
