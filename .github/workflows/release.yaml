@@ -1,43 +1,93 @@
-name: Tag Go Submodules
+name: Release Please
 
 on:
   push:
-    tags:
-      - 'v*'  # only run for version tags like v0.0.1, v1.2.3
+    branches:
+      - main
+
+permissions:
+  contents: write
+  issues: write
+  pull-requests: write
 
 jobs:
-  tag-submodules:
+  validate:
+    name: Quality Validations
     runs-on: ubuntu-latest
-    permissions:
-      contents: write  # required to push new tags
+
+    strategy:
+      matrix:
+        folder:
+          - example
+          - otelprovider
+          - otelzap
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v6
+
+      - name: Setup Go
+        uses: actions/setup-go@v6
         with:
-          fetch-depth: 0  # need full history to tag
+          go-version-file: "${{ matrix.folder }}/go.mod"
+          cache: true
+          cache-dependency-path: "${{ matrix.folder }}/*.sum"
 
-      - name: Get version from tag
-        id: version
+      - name: GolangCI Lint
+        uses: golangci/golangci-lint-action@v9
+        with:
+          working-directory: "${{ matrix.folder }}/"
+          version: latest
+
+      - name: Run format-check
+        working-directory: "${{ matrix.folder }}/"
         run: |
-          echo "version=${GITHUB_REF#refs/tags/}" >> $GITHUB_OUTPUT
+          UNFORMATTED=$(gofmt -l .)
+          if [ -n "$UNFORMATTED" ]; then
+            echo "The following files are not formatted according to gofmt:"
+            echo "$UNFORMATTED"
+            exit 1
+          fi
 
-      - name: Tag each Go submodule
-        run: |
-          version="${{ steps.version.outputs.version }}"
-          echo "Tagging submodules with version: $version"
+  test:
+    name: Unit Tests
+    runs-on: ubuntu-latest
 
-          for dir in */go.mod; do
-            subdir=$(dirname "$dir")
-            tag="$subdir/$version"
+    strategy:
+      matrix:
+        folder:
+          - example
+          - otelprovider
+          - otelzap
 
-            # Skip if tag already exists
-            if git rev-parse "$tag" >/dev/null 2>&1; then
-              echo "Tag $tag already exists. Skipping."
-              continue
-            fi
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
 
-            echo "Creating tag: $tag"
-            git tag "$tag"
-            git push origin "$tag"
-          done
+      - name: Setup Go
+        uses: actions/setup-go@v6
+        with:
+          go-version-file: "${{ matrix.folder }}/go.mod"
+          cache: true
+          cache-dependency-path: "${{ matrix.folder }}/*.sum"
+
+      - name: Run tests
+        working-directory: "${{ matrix.folder }}/"
+        run: go test -race -cover -covermode=atomic ./...
+
+  release-please:
+    name: Release Please
+    runs-on: ubuntu-latest
+    needs:
+      - validate
+      - test
+
+    steps:
+      - uses: googleapis/release-please-action@v4
+        id: release-please
+        with:
+          config-file: .release-please-config.json
+          manifest-file: .release-please-manifest.json
+
+    outputs:
+      releases_created: ${{ steps.release-please.outputs.releases_created }}
