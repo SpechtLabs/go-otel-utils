@@ -119,7 +119,7 @@ func (l LoggerWithCtx) Fatal(msg string, fields ...zapcore.Field) {
 func (l LoggerWithCtx) logFields(
 	ctx context.Context, lvl zapcore.Level, msg string, fields []zapcore.Field,
 ) []zapcore.Field {
-	fields = append(l.l.logFields(fields))
+	fields = l.l.logFields(fields)
 
 	if lvl >= l.l.minLevel {
 		l.log(ctx, lvl, msg, convertFields(fields))
