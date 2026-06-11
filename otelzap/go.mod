@@ -1,9 +1,9 @@
 module github.com/spechtlabs/go-otel-utils/otelzap
 
-go 1.23.0
+go 1.24
 
 require (
-	github.com/aws/smithy-go v1.23.0
+	github.com/aws/smithy-go v1.27.2
 	github.com/sierrasoftworks/humane-errors-go v0.0.0-20250904141959-2224f06cddb4
 	github.com/spechtlabs/go-otel-utils/otelprovider v0.0.15
 	github.com/stretchr/testify v1.11.1
