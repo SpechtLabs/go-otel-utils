@@ -29,6 +29,8 @@ github.com/rogpeppe/go-internal v1.14.1 h1:UQB4HGPB6osV0SQTLymcB4TgvyWu6ZyliaW0t
 github.com/rogpeppe/go-internal v1.14.1/go.mod h1:MaRKkUm5W0goXpeCfT7UZI6fk/L7L7so1lCWt35ZSgc=
 github.com/sierrasoftworks/humane-errors-go v0.0.0-20260428132744-178d2d0aad2c h1:TlFCGManXBbR+EBc2Nxe/NwnUDoUzBRCaArLrmYJM5A=
 github.com/sierrasoftworks/humane-errors-go v0.0.0-20260428132744-178d2d0aad2c/go.mod h1:98WJMvl0Bvx/4pvShkeT0281OIJX6u6t1khQnMXjctg=
+github.com/sierrasoftworks/humane-errors-go v0.0.0-20260709190713-8d6350c8d11d h1:07VCTU3gOTI3ss1fjhCp8lArx9Cxl+Q8dxDwao0Fcng=
+github.com/sierrasoftworks/humane-errors-go v0.0.0-20260709190713-8d6350c8d11d/go.mod h1:98WJMvl0Bvx/4pvShkeT0281OIJX6u6t1khQnMXjctg=
 github.com/spechtlabs/go-otel-utils/otelprovider v0.1.0 h1:xMLA2lo96VVBjm+vUqOMfhDurs7vuwDR4oyOg5HxMhw=
 github.com/spechtlabs/go-otel-utils/otelprovider v0.1.0/go.mod h1:s4gXCGPNAEmivwJGfvqBw0a8uyoT7/6ItBCOYWY9Lvw=
 github.com/stretchr/testify v1.11.1 h1:7s2iGBzp5EwR7/aIZr8ao5+dra3wiQyKjjFuvgVKu7U=

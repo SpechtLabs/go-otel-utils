@@ -4,7 +4,7 @@ go 1.25.0
 
 require (
 	github.com/aws/smithy-go v1.27.2
-	github.com/sierrasoftworks/humane-errors-go v0.0.0-20260428132744-178d2d0aad2c
+	github.com/sierrasoftworks/humane-errors-go v0.0.0-20260709190713-8d6350c8d11d
 	github.com/spechtlabs/go-otel-utils/otelprovider v0.1.0
 	github.com/stretchr/testify v1.11.1
 	go.opentelemetry.io/otel v1.44.0
