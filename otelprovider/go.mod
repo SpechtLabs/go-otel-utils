@@ -1,6 +1,6 @@
 module github.com/spechtlabs/go-otel-utils/otelprovider
 
-go 1.25.0
+go 1.27.1
 
 require (
 	github.com/spechtlabs/go-otel-utils/otelzap v0.1.0
