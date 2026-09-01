@@ -1,6 +1,6 @@
 module github.com/spechtlabs/go-otel-utils/example
 
-go 1.25.0
+go 1.27.1
 
 replace github.com/spechtlabs/go-otel-utils/otelprovider => ../otelprovider
 
