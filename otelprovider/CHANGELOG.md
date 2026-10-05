@@ -1,5 +1,14 @@
 # Changelog
 
+## [0.2.1](https://github.com/SpechtLabs/go-otel-utils/compare/otelprovider/v0.2.0...otelprovider/v0.2.1) (2026-10-05)
+
+
+### Bug Fixes
+
+* **deps:** update module go.opentelemetry.io/otel/exporters/otlp/otlptrace to v1.45.0 [security] ([#44](https://github.com/SpechtLabs/go-otel-utils/issues/44)) ([73c2393](https://github.com/SpechtLabs/go-otel-utils/commit/73c2393a8ec3672f02bbe274735907897c9cf762))
+* **deps:** update module go.opentelemetry.io/otel/exporters/otlp/otlptrace/otlptracegrpc to v1.45.0 [security] ([#45](https://github.com/SpechtLabs/go-otel-utils/issues/45)) ([cc428e4](https://github.com/SpechtLabs/go-otel-utils/commit/cc428e4faa6b1d701f28e7c016e27f382aa7fb4a))
+* **deps:** update module go.opentelemetry.io/otel/exporters/otlp/otlptrace/otlptracehttp to v1.45.0 [security] ([#46](https://github.com/SpechtLabs/go-otel-utils/issues/46)) ([7a4998e](https://github.com/SpechtLabs/go-otel-utils/commit/7a4998ed24d0e36bf3708745967c78a422d1f0d1))
+
 ## [0.2.0](https://github.com/SpechtLabs/go-otel-utils/compare/otelprovider/v0.1.1...otelprovider/v0.2.0) (2026-10-05)
 
 
