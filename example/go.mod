@@ -7,21 +7,21 @@ replace github.com/spechtlabs/go-otel-utils/otelprovider => ../otelprovider
 replace github.com/spechtlabs/go-otel-utils/otelzap => ../otelzap
 
 require (
-	github.com/spechtlabs/go-otel-utils/otelprovider v0.1.0
-	github.com/spechtlabs/go-otel-utils/otelzap v0.1.0
+	github.com/spechtlabs/go-otel-utils/otelprovider v0.2.1
+	github.com/spechtlabs/go-otel-utils/otelzap v0.2.1
 	go.opentelemetry.io/otel v1.47.0
 	go.uber.org/zap v1.28.0
 )
 
 require (
-	github.com/aws/smithy-go v1.27.2 // indirect
+	github.com/aws/smithy-go v1.28.2 // indirect
 	github.com/cenkalti/backoff/v5 v5.0.3 // indirect
 	github.com/cespare/xxhash/v2 v2.3.0 // indirect
 	github.com/go-logr/logr v1.4.4 // indirect
 	github.com/go-logr/stdr v1.2.2 // indirect
 	github.com/google/uuid v1.6.0 // indirect
 	github.com/grpc-ecosystem/grpc-gateway/v2 v2.31.0 // indirect
-	github.com/sierrasoftworks/humane-errors-go v0.0.0-20260428132744-178d2d0aad2c // indirect
+	github.com/sierrasoftworks/humane-errors-go v0.0.0-20260820132314-9a466da5e0f0 // indirect
 	go.opentelemetry.io/auto/sdk v1.2.1 // indirect
 	go.opentelemetry.io/otel/exporters/otlp/otlplog/otlploggrpc v0.23.0 // indirect
 	go.opentelemetry.io/otel/exporters/otlp/otlplog/otlploghttp v0.23.0 // indirect

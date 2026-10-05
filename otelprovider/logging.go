@@ -7,9 +7,9 @@ import (
 	"time"
 
 	"github.com/spechtlabs/go-otel-utils/otelzap"
+	"go.opentelemetry.io/otel"
 	"go.opentelemetry.io/otel/exporters/otlp/otlplog/otlploggrpc"
 	"go.opentelemetry.io/otel/exporters/otlp/otlplog/otlploghttp"
-	"go.opentelemetry.io/otel/log/global"
 	"go.opentelemetry.io/otel/sdk/log"
 	"go.opentelemetry.io/otel/sdk/resource"
 	"go.uber.org/zap"
@@ -44,7 +44,7 @@ func NewLogger(opts ...LoggerOption) *log.LoggerProvider {
 
 	// Register the Provider globally
 	if l.register {
-		global.SetLoggerProvider(logProvider)
+		otel.SetLoggerProvider(logProvider)
 	}
 
 	return logProvider
