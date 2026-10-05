@@ -1,5 +1,16 @@
 # Changelog
 
+## [0.2.0](https://github.com/SpechtLabs/go-otel-utils/compare/example/v0.1.1...example/v0.2.0) (2026-10-05)
+
+
+### ⚠ BREAKING CHANGES
+
+* **otelzap:** build against the stable otel/log v1.47 API ([#49](https://github.com/SpechtLabs/go-otel-utils/issues/49))
+
+### Bug Fixes
+
+* **otelzap:** build against the stable otel/log v1.47 API ([#49](https://github.com/SpechtLabs/go-otel-utils/issues/49)) ([8ab5ab3](https://github.com/SpechtLabs/go-otel-utils/commit/8ab5ab397c8d645fce06692f07080ff923aa3dbd))
+
 ## [0.1.1](https://github.com/SpechtLabs/go-otel-utils/compare/example/v0.1.0...example/v0.1.1) (2026-06-11)
 
 

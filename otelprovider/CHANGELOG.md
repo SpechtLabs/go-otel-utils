@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.2.0](https://github.com/SpechtLabs/go-otel-utils/compare/otelprovider/v0.1.1...otelprovider/v0.2.0) (2026-10-05)
+
+
+### Miscellaneous Chores
+
+* **otelprovider:** Synchronize go-otel-utils versions
+
 ## [0.1.1](https://github.com/SpechtLabs/go-otel-utils/compare/otelprovider/v0.1.0...otelprovider/v0.1.1) (2026-06-11)
 
 
