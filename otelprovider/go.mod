@@ -1,9 +1,9 @@
 module github.com/spechtlabs/go-otel-utils/otelprovider
 
-go 1.27.1
+go 1.27
 
 require (
-	github.com/spechtlabs/go-otel-utils/otelzap v0.2.2
+	github.com/spechtlabs/go-otel-utils/otelzap v0.2.1
 	go.opentelemetry.io/otel v1.47.0
 	go.opentelemetry.io/otel/exporters/otlp/otlplog/otlploggrpc v0.23.0
 	go.opentelemetry.io/otel/exporters/otlp/otlplog/otlploghttp v0.23.0

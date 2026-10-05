@@ -19,8 +19,8 @@ github.com/grpc-ecosystem/grpc-gateway/v2 v2.31.0 h1:Bd7KaOxzULLxtZ/K5s1aLbWhR0+
 github.com/grpc-ecosystem/grpc-gateway/v2 v2.31.0/go.mod h1:nN7ts3dFXKtCZWc//yfkpcQNKJABg16/uDVAZpLDalo=
 github.com/sierrasoftworks/humane-errors-go v0.0.0-20260820132314-9a466da5e0f0 h1:9cNxq4nJv4SlCe5+O1USeJIOn5bhp06gdI1CcDiOT6U=
 github.com/sierrasoftworks/humane-errors-go v0.0.0-20260820132314-9a466da5e0f0/go.mod h1:fQ1yre9kStQHEGqICzKYn1NHgnYeo8sNSf1Q0KNgaSA=
-github.com/spechtlabs/go-otel-utils/otelprovider v0.2.2 h1:goXBmqt4wdSCqaQzJSY+Tvk6ZZQa/NRyYKNAfckZvlQ=
-github.com/spechtlabs/go-otel-utils/otelprovider v0.2.2/go.mod h1:QG5Vm6hZIqwp1pDBfQiXHSiNP2kZDJRRGS4pLWHCGBQ=
+github.com/spechtlabs/go-otel-utils/otelprovider v0.2.1 h1:mrIAWKmUUwycqThz65WOAFwF7tOJ8Inwb5PDvEx0HQM=
+github.com/spechtlabs/go-otel-utils/otelprovider v0.2.1/go.mod h1:sDF0XluG6ci5HZBHnq7KEpBA5PaV4+MFmniHs95Wn4s=
 github.com/stretchr/testify v1.12.1 h1:EuwCh5fleGS7H32xRwO3wRGT7DxrDhLAT6FF8MpWDWE=
 github.com/stretchr/testify v1.12.1/go.mod h1:MDEgiDPPsNp5cuIrHPPCyornHKgEVbtFUmoNlxoYthg=
 go.opentelemetry.io/auto/sdk v1.2.1 h1:jXsnJ4Lmnqd11kwkBV2LgLoFMZKizbCi5fNZ/ipaZ64=
