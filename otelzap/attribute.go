@@ -3,12 +3,18 @@ package otelzap
 import (
 	"encoding/json"
 	"fmt"
+	"math"
 	"reflect"
+	"strconv"
 
 	"go.opentelemetry.io/otel/attribute"
 )
 
-func Attribute(key string, value interface{}) attribute.KeyValue {
+// Attribute converts a value of any type into a span attribute under key:
+// scalars and slices of scalars keep their types, a fmt.Stringer or error
+// becomes its string, a uint64 past the int64 range becomes its decimal
+// string, and anything else its JSON or, failing that, its fmt.Sprint form.
+func Attribute(key string, value any) attribute.KeyValue {
 	switch value := value.(type) {
 	case nil:
 		return attribute.String(key, "<nil>")
@@ -19,6 +25,9 @@ func Attribute(key string, value interface{}) attribute.KeyValue {
 	case int64:
 		return attribute.Int64(key, value)
 	case uint64:
+		if value > math.MaxInt64 {
+			return attribute.String(key, strconv.FormatUint(value, 10))
+		}
 		return attribute.Int64(key, int64(value))
 	case float64:
 		return attribute.Float64(key, value)
@@ -33,21 +42,21 @@ func Attribute(key string, value interface{}) attribute.KeyValue {
 	rv := reflect.ValueOf(value)
 
 	switch rv.Kind() {
-	case reflect.Array:
-		rv = rv.Slice(0, rv.Len())
-		fallthrough
-	case reflect.Slice:
-		switch reflect.TypeOf(value).Elem().Kind() {
+	// Arrays and slices whose elements are named types (type flag bool) are
+	// read element by element: an array value can't be sliced, and a []flag
+	// isn't a []bool.
+	case reflect.Array, reflect.Slice:
+		switch rv.Type().Elem().Kind() {
 		case reflect.Bool:
-			return attribute.BoolSlice(key, rv.Interface().([]bool))
+			return attribute.BoolSlice(key, elements(rv, reflect.Value.Bool))
 		case reflect.Int:
-			return attribute.IntSlice(key, rv.Interface().([]int))
+			return attribute.IntSlice(key, elements(rv, func(v reflect.Value) int { return int(v.Int()) }))
 		case reflect.Int64:
-			return attribute.Int64Slice(key, rv.Interface().([]int64))
+			return attribute.Int64Slice(key, elements(rv, reflect.Value.Int))
 		case reflect.Float64:
-			return attribute.Float64Slice(key, rv.Interface().([]float64))
+			return attribute.Float64Slice(key, elements(rv, reflect.Value.Float))
 		case reflect.String:
-			return attribute.StringSlice(key, rv.Interface().([]string))
+			return attribute.StringSlice(key, elements(rv, reflect.Value.String))
 		default:
 			return attribute.KeyValue{Key: attribute.Key(key)}
 		}
@@ -66,7 +75,10 @@ func Attribute(key string, value interface{}) attribute.KeyValue {
 	return attribute.String(key, fmt.Sprint(value))
 }
 
-func LogValue(value interface{}) attribute.Value {
+// LogValue converts a value of any type into a log record value, like
+// Attribute converts it into a span attribute. Slices of any element type
+// become a slice value, converted element by element.
+func LogValue(value any) attribute.Value {
 	switch value := value.(type) {
 	case nil:
 		return attribute.StringValue("<nil>")
@@ -77,6 +89,9 @@ func LogValue(value interface{}) attribute.Value {
 	case int64:
 		return attribute.Int64Value(value)
 	case uint64:
+		if value > math.MaxInt64 {
+			return attribute.StringValue(strconv.FormatUint(value, 10))
+		}
 		return attribute.Int64Value(int64(value))
 	case float64:
 		return attribute.Float64Value(value)
@@ -91,10 +106,7 @@ func LogValue(value interface{}) attribute.Value {
 	rv := reflect.ValueOf(value)
 
 	switch rv.Kind() {
-	case reflect.Array:
-		rv = rv.Slice(0, rv.Len())
-		fallthrough
-	case reflect.Slice:
+	case reflect.Array, reflect.Slice:
 		values := make([]attribute.Value, rv.Len())
 		for i := range values {
 			values[i] = LogValue(rv.Index(i).Interface())
@@ -113,4 +125,13 @@ func LogValue(value interface{}) attribute.Value {
 		return attribute.StringValue(string(b))
 	}
 	return attribute.StringValue(fmt.Sprint(value))
+}
+
+// elements reads every element of the array or slice rv with get.
+func elements[T any](rv reflect.Value, get func(reflect.Value) T) []T {
+	out := make([]T, rv.Len())
+	for i := range out {
+		out[i] = get(rv.Index(i))
+	}
+	return out
 }
