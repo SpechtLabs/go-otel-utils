@@ -30,33 +30,33 @@ package main
 import (
     "context"
     "log"
-    
+
     "github.com/spechtlabs/go-otel-utils/otelprovider"
 )
 
 func main() {
     ctx := context.Background()
-    
+
     // Initialize the trace provider
     tp, err := otelprovider.NewTraceProvider(ctx, "my-service")
     if err != nil {
         log.Fatalf("Failed to initialize trace provider: %v", err)
     }
     defer tp.Shutdown(ctx)
-    
+
     // Initialize the logger
     logger, err := otelprovider.NewLogger("my-service", "development")
     if err != nil {
         log.Fatalf("Failed to initialize logger: %v", err)
     }
-    
+
     // Your application code here
     logger.Info("Application started successfully")
-    
+
     // Create spans and add logs as needed
     ctx, span := tp.Tracer("component-name").Start(ctx, "operation-name")
     defer span.End()
-    
+
     // ...
 }
 ```

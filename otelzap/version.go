@@ -1,5 +1,6 @@
 package otelzap
 
+// V is the version Version reports.
 var V = "0.0.1"
 
 // Version is the current release version.
