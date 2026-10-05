@@ -4,6 +4,7 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	"slices"
 
 	"github.com/aws/smithy-go/logging"
 	"github.com/sierrasoftworks/humane-errors-go"
@@ -80,7 +81,9 @@ func (l *Logger) WithOptions(opts ...zap.Option) *Logger {
 	clone := *l
 	clone.Logger = l.Logger.WithOptions(opts...)
 	clone.skipCaller = l.skipCaller.WithOptions(opts...)
-	clone.extraFields = append(clone.extraFields, extraFields...)
+	// A fresh slice: appending to the copied one could write into l's
+	// backing array.
+	clone.extraFields = slices.Concat(l.extraFields, extraFields)
 	return &clone
 }
 
@@ -120,9 +123,14 @@ func (l *Logger) WithError(err error) *Logger {
 	return l.With(zapFields...)
 }
 
+// With returns a copy of the Logger that adds fields to its next log entry
+// only, as in otelzap.L().With(zap.String("id", id)).Info("done"). l itself
+// is left unchanged, so it's safe to call on a Logger shared between
+// goroutines, such as the global one.
 func (l *Logger) With(fields ...zap.Field) *Logger {
-	l.extraFieldsOnce = append(l.extraFieldsOnce, fields...)
-	return l
+	clone := *l
+	clone.extraFieldsOnce = slices.Concat(l.extraFieldsOnce, fields)
+	return &clone
 }
 
 // Sugar wraps the Logger to provide a more ergonomic, but slightly slower,
