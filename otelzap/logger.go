@@ -7,8 +7,8 @@ import (
 
 	"github.com/aws/smithy-go/logging"
 	"github.com/sierrasoftworks/humane-errors-go"
+	"go.opentelemetry.io/otel"
 	"go.opentelemetry.io/otel/log"
-	"go.opentelemetry.io/otel/log/global"
 	"go.uber.org/zap"
 	"go.uber.org/zap/zapcore"
 )
@@ -44,7 +44,7 @@ func New(logger *zap.Logger, opts ...Option) *Logger {
 		Logger:     logger,
 		skipCaller: logger.WithOptions(zap.AddCallerSkip(1)),
 
-		provider: global.GetLoggerProvider(),
+		provider: otel.GetLoggerProvider(),
 
 		minLevel:         zap.InfoLevel,
 		errorStatusLevel: zap.ErrorLevel,
