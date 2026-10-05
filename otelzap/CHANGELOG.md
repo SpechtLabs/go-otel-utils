@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.2.1](https://github.com/SpechtLabs/go-otel-utils/compare/otelzap/v0.2.0...otelzap/v0.2.1) (2026-10-05)
+
+
+### Bug Fixes
+
+* **otelzap:** stop Attribute and LogValue from panicking on arrays and named slices ([#52](https://github.com/SpechtLabs/go-otel-utils/issues/52)) ([8aa8ae7](https://github.com/SpechtLabs/go-otel-utils/commit/8aa8ae7e28fe4aa9dca9c18f904f726f57fedb24))
+
 ## [0.2.0](https://github.com/SpechtLabs/go-otel-utils/compare/otelzap/v0.1.1...otelzap/v0.2.0) (2026-10-05)
 
 
