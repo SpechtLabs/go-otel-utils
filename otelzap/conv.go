@@ -52,10 +52,10 @@ func appendField(kvs []attribute.KeyValue, f zapcore.Field) []attribute.KeyValue
 		return append(kvs, attribute.Int64(f.Key, f.Integer))
 
 	case zapcore.Float64Type:
-		num := math.Float64frombits(uint64(f.Integer))
+		num := math.Float64frombits(uint64(f.Integer)) //nolint:gosec // zap stores the float's bits in Integer
 		return append(kvs, attribute.Float64(f.Key, num))
 	case zapcore.Float32Type:
-		num := math.Float32frombits(uint32(f.Integer))
+		num := math.Float32frombits(uint32(f.Integer)) //nolint:gosec // zap stores the float's bits in Integer
 		return append(kvs, attribute.Float64(f.Key, float64(num)))
 
 	case zapcore.Complex64Type:

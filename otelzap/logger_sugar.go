@@ -8,7 +8,7 @@ import (
 	"go.uber.org/zap/zapcore"
 )
 
-// A SugaredLogger wraps the base Logger functionality in a slower, but less
+// SugaredLogger wraps the base Logger functionality in a slower, but less
 // verbose, API. Any Logger can be converted to a SugaredLogger with its Sugar
 // method.
 //
@@ -62,7 +62,7 @@ func (s *SugaredLogger) Desugar() *Logger {
 // forgiving: a separate error is logged, but the key-value pair is skipped
 // and execution continues. Passing an orphaned key triggers similar behavior:
 // panics in development and errors in production.
-func (s *SugaredLogger) With(args ...interface{}) *SugaredLogger {
+func (s *SugaredLogger) With(args ...any) *SugaredLogger {
 	return &SugaredLogger{
 		SugaredLogger: s.SugaredLogger.With(args...),
 		skipCaller:    s.skipCaller,
@@ -79,50 +79,50 @@ func (s *SugaredLogger) Ctx(ctx context.Context) SugaredLoggerWithCtx {
 }
 
 // Debugf uses fmt.Sprintf to log a templated message.
-func (s *SugaredLogger) DebugfContext(ctx context.Context, template string, args ...interface{}) {
+func (s *SugaredLogger) DebugfContext(ctx context.Context, template string, args ...any) {
 	s.logArgs(ctx, zap.DebugLevel, template, args)
 	s.Debugf(template, args...)
 }
 
 // Infof uses fmt.Sprintf to log a templated message.
-func (s *SugaredLogger) InfofContext(ctx context.Context, template string, args ...interface{}) {
+func (s *SugaredLogger) InfofContext(ctx context.Context, template string, args ...any) {
 	s.logArgs(ctx, zap.InfoLevel, template, args)
 	s.Infof(template, args...)
 }
 
 // Warnf uses fmt.Sprintf to log a templated message.
-func (s *SugaredLogger) WarnfContext(ctx context.Context, template string, args ...interface{}) {
+func (s *SugaredLogger) WarnfContext(ctx context.Context, template string, args ...any) {
 	s.logArgs(ctx, zap.WarnLevel, template, args)
 	s.Warnf(template, args...)
 }
 
 // Errorf uses fmt.Sprintf to log a templated message.
-func (s *SugaredLogger) ErrorfContext(ctx context.Context, template string, args ...interface{}) {
+func (s *SugaredLogger) ErrorfContext(ctx context.Context, template string, args ...any) {
 	s.logArgs(ctx, zap.ErrorLevel, template, args)
 	s.Errorf(template, args...)
 }
 
 // DPanicf uses fmt.Sprintf to log a templated message. In development, the
 // logger then panics. (See DPanicLevel for details.)
-func (s *SugaredLogger) DPanicfContext(ctx context.Context, template string, args ...interface{}) {
+func (s *SugaredLogger) DPanicfContext(ctx context.Context, template string, args ...any) {
 	s.logArgs(ctx, zap.DPanicLevel, template, args)
 	s.DPanicf(template, args...)
 }
 
 // Panicf uses fmt.Sprintf to log a templated message, then panics.
-func (s *SugaredLogger) PanicfContext(ctx context.Context, template string, args ...interface{}) {
+func (s *SugaredLogger) PanicfContext(ctx context.Context, template string, args ...any) {
 	s.logArgs(ctx, zap.PanicLevel, template, args)
 	s.Panicf(template, args...)
 }
 
 // Fatalf uses fmt.Sprintf to log a templated message, then calls os.Exit.
-func (s *SugaredLogger) FatalfContext(ctx context.Context, template string, args ...interface{}) {
+func (s *SugaredLogger) FatalfContext(ctx context.Context, template string, args ...any) {
 	s.logArgs(ctx, zap.FatalLevel, template, args)
 	s.Fatalf(template, args...)
 }
 
 func (s *SugaredLogger) logArgs(
-	ctx context.Context, lvl zapcore.Level, template string, args []interface{},
+	ctx context.Context, lvl zapcore.Level, template string, args []any,
 ) {
 	if lvl < s.l.minLevel {
 		return
@@ -136,7 +136,7 @@ func (s *SugaredLogger) logArgs(
 // Debugw logs a message with some additional context. The variadic key-value
 // pairs are treated as they are in With.
 func (s *SugaredLogger) DebugwContext(
-	ctx context.Context, msg string, keysAndValues ...interface{},
+	ctx context.Context, msg string, keysAndValues ...any,
 ) {
 	s.logKVs(ctx, zap.DebugLevel, msg, keysAndValues)
 	s.Debugw(msg, keysAndValues...)
@@ -145,7 +145,7 @@ func (s *SugaredLogger) DebugwContext(
 // Infow logs a message with some additional context. The variadic key-value
 // pairs are treated as they are in With.
 func (s *SugaredLogger) InfowContext(
-	ctx context.Context, msg string, keysAndValues ...interface{},
+	ctx context.Context, msg string, keysAndValues ...any,
 ) {
 	s.logKVs(ctx, zap.InfoLevel, msg, keysAndValues)
 	s.Infow(msg, keysAndValues...)
@@ -154,7 +154,7 @@ func (s *SugaredLogger) InfowContext(
 // Warnw logs a message with some additional context. The variadic key-value
 // pairs are treated as they are in With.
 func (s *SugaredLogger) WarnwContext(
-	ctx context.Context, msg string, keysAndValues ...interface{},
+	ctx context.Context, msg string, keysAndValues ...any,
 ) {
 	s.logKVs(ctx, zap.WarnLevel, msg, keysAndValues)
 	s.Warnw(msg, keysAndValues...)
@@ -163,7 +163,7 @@ func (s *SugaredLogger) WarnwContext(
 // Errorw logs a message with some additional context. The variadic key-value
 // pairs are treated as they are in With.
 func (s *SugaredLogger) ErrorwContext(
-	ctx context.Context, msg string, keysAndValues ...interface{},
+	ctx context.Context, msg string, keysAndValues ...any,
 ) {
 	s.logKVs(ctx, zap.ErrorLevel, msg, keysAndValues)
 	s.Errorw(msg, keysAndValues...)
@@ -173,7 +173,7 @@ func (s *SugaredLogger) ErrorwContext(
 // logger then panics. (See DPanicLevel for details.) The variadic key-value
 // pairs are treated as they are in With.
 func (s *SugaredLogger) DPanicwContext(
-	ctx context.Context, msg string, keysAndValues ...interface{},
+	ctx context.Context, msg string, keysAndValues ...any,
 ) {
 	s.logKVs(ctx, zap.DPanicLevel, msg, keysAndValues)
 	s.DPanicw(msg, keysAndValues...)
@@ -182,7 +182,7 @@ func (s *SugaredLogger) DPanicwContext(
 // Panicw logs a message with some additional context, then panics. The
 // variadic key-value pairs are treated as they are in With.
 func (s *SugaredLogger) PanicwContext(
-	ctx context.Context, msg string, keysAndValues ...interface{},
+	ctx context.Context, msg string, keysAndValues ...any,
 ) {
 	s.logKVs(ctx, zap.PanicLevel, msg, keysAndValues)
 	s.Panicw(msg, keysAndValues...)
@@ -191,14 +191,14 @@ func (s *SugaredLogger) PanicwContext(
 // Fatalw logs a message with some additional context, then calls os.Exit. The
 // variadic key-value pairs are treated as they are in With.
 func (s *SugaredLogger) FatalwContext(
-	ctx context.Context, msg string, keysAndValues ...interface{},
+	ctx context.Context, msg string, keysAndValues ...any,
 ) {
 	s.logKVs(ctx, zap.FatalLevel, msg, keysAndValues)
 	s.Fatalw(msg, keysAndValues...)
 }
 
 func (s *SugaredLogger) logKVs(
-	ctx context.Context, lvl zapcore.Level, msg string, args []interface{},
+	ctx context.Context, lvl zapcore.Level, msg string, args []any,
 ) {
 	if lvl < s.l.minLevel {
 		return
@@ -210,7 +210,6 @@ func (s *SugaredLogger) logKVs(
 		field := args[i]
 
 		switch field := field.(type) {
-
 		// in case it's a zapcore.Field we know that key and value are encoded in the zapcore.Field
 		case zapcore.Field:
 			kvs = append(kvs, field)

@@ -1,0 +1,64 @@
+# Labels a pull request by the files it changes and its branch name. The
+# labeler job in pr-hygiene.yaml applies them, and drops one whose files the
+# pull request no longer touches.
+
+# The OpenTelemetry provider setup
+otelprovider:
+  - changed-files:
+      - any-glob-to-any-file:
+          - "otelprovider/**"
+
+# The zap integration
+otelzap:
+  - changed-files:
+      - any-glob-to-any-file:
+          - "otelzap/**"
+
+# The example program
+example:
+  - changed-files:
+      - any-glob-to-any-file:
+          - "example/**"
+
+# Tests
+tests:
+  - changed-files:
+      - any-glob-to-any-file:
+          - "**/*_test.go"
+          - "**/testdata/**"
+
+# Documentation
+documentation:
+  - changed-files:
+      - any-glob-to-any-file:
+          - "**/*.md"
+
+# Build, release, and CI plumbing
+build:
+  - changed-files:
+      - any-glob-to-any-file:
+          - ".github/**"
+          - ".release-please-config.json"
+          - ".release-please-manifest.json"
+          - ".mise.toml"
+          - ".golangci.yaml"
+          - ".custom-gcl.yml"
+          - ".pre-commit-config.yaml"
+          - ".yamllint.yaml"
+          - ".editorconfig"
+          - "codecov.yml"
+          - "renovate.json"
+          - "**/go.mod"
+          - "**/go.sum"
+
+# Add 'enhancement' to any PR whose head branch starts with `feat` or `feature`
+enhancement:
+  - head-branch:
+      - "^feat"
+      - "^feature"
+
+# Add 'bug' to any PR whose head branch starts with `fix` or `bug`
+bug:
+  - head-branch:
+      - "^fix"
+      - "^bug"

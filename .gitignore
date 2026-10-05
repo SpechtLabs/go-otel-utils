@@ -470,3 +470,8 @@ npm-debug.log
 yarn-error.log
 
 # End of https://www.toptal.com/developers/gitignore/api/macos,intellij,visualstudiocode,go,goland+all,goland,node,vuejs
+### Tooling ###
+# golangci-lint with golint-sl baked in; `mise run lint-build` writes it.
+custom-gcl
+# `mise run test` writes one per module.
+coverage.txt

@@ -15,13 +15,19 @@ import (
 	"go.uber.org/zap"
 )
 
+// Tracer collects the configuration NewTracer builds a trace provider from.
 type Tracer struct {
+	resources       *resource.Resource
 	providerOptions []trace.TracerProviderOption
 	insecure        bool
-	resources       *resource.Resource
 	register        bool
 }
 
+// NewTracer builds an OpenTelemetry trace provider with the given options,
+// describing this process with the resource from WithTraceResources (by
+// default, one detected from the environment). Unless
+// WithoutRegisterTraceProvider is given, it also becomes the global trace
+// provider.
 func NewTracer(opts ...TracerOption) *trace.TracerProvider {
 	t := &Tracer{
 		insecure:        false,
@@ -45,15 +51,19 @@ func NewTracer(opts ...TracerOption) *trace.TracerProvider {
 	return traceProvider
 }
 
-// TracerOption applies a configuration to the given config.
+// TracerOption configures the trace provider NewTracer builds.
 type TracerOption func(t *Tracer)
 
+// WithTraceInsecure turns off TLS for the exporters the endpoint options after
+// it set up.
 func WithTraceInsecure() TracerOption {
 	return func(t *Tracer) {
 		t.insecure = true
 	}
 }
 
+// WithGrpcTraceEndpoint exports spans over OTLP/gRPC to the given endpoint, in
+// batches. It exits the process when the exporter can't be created.
 func WithGrpcTraceEndpoint(otelGrpcEndpoint string) TracerOption {
 	return func(t *Tracer) {
 		grpcExporterOptions := []otlptracegrpc.Option{
@@ -75,6 +85,8 @@ func WithGrpcTraceEndpoint(otelGrpcEndpoint string) TracerOption {
 	}
 }
 
+// WithHttpTraceEndpoint exports spans over OTLP/HTTP to the given endpoint, in
+// batches. It exits the process when the exporter can't be created.
 func WithHttpTraceEndpoint(otelHttpEndpoint string) TracerOption {
 	return func(t *Tracer) {
 		httpExporterOptions := []otlptracehttp.Option{
@@ -96,6 +108,10 @@ func WithHttpTraceEndpoint(otelHttpEndpoint string) TracerOption {
 	}
 }
 
+// WithTraceAutomaticEnv configures the exporter from
+// OTEL_EXPORTER_OTLP_ENDPOINT: OTLP/gRPC when the endpoint contains port 4317,
+// OTLP/HTTP when it contains 4318. OTEL_EXPORTER_OTLP_INSECURE=true turns off
+// TLS. Without an endpoint, nothing is exported.
 func WithTraceAutomaticEnv() TracerOption {
 	return func(t *Tracer) {
 		otelEndpoint := os.Getenv("OTEL_EXPORTER_OTLP_ENDPOINT")
@@ -117,12 +133,16 @@ func WithTraceAutomaticEnv() TracerOption {
 	}
 }
 
+// WithTraceResources replaces the resource that describes this process in
+// every span.
 func WithTraceResources(res *resource.Resource) TracerOption {
 	return func(t *Tracer) {
 		t.resources = res
 	}
 }
 
+// WithoutRegisterTraceProvider leaves the global trace provider alone;
+// NewTracer only returns the provider it built.
 func WithoutRegisterTraceProvider() TracerOption {
 	return func(t *Tracer) {
 		t.register = false

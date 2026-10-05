@@ -60,7 +60,7 @@ func WithErrorStatusLevel(lvl zapcore.Level) Option {
 // WithAnnotateLevel sets the minimal zap logging level on which
 // spans will be annotated with the log fields as metadata.
 //
-// The default is >= zap.InfoLevel.
+// The default is >= zap.WarnLevel.
 func WithAnnotateLevel(lvl zapcore.Level) Option {
 	return func(l *Logger) {
 		l.minAnnotateLevel = lvl
@@ -71,7 +71,6 @@ func WithAnnotateLevel(lvl zapcore.Level) Option {
 // line number, and function name of the caller.
 //
 // It is enabled by default.
-
 func WithCaller(on bool) Option {
 	return func(l *Logger) {
 		l.caller = on

@@ -15,13 +15,18 @@ import (
 	"go.uber.org/zap"
 )
 
+// Logger collects the configuration NewLogger builds a log provider from.
 type Logger struct {
+	resources       *resource.Resource
 	providerOptions []log.LoggerProviderOption
 	insecure        bool
-	resources       *resource.Resource
 	register        bool
 }
 
+// NewLogger builds an OpenTelemetry log provider with the given options,
+// describing this process with the resource from WithLogResources (by default,
+// one detected from the environment). Unless WithoutRegisterLogProvider is
+// given, it also becomes the global log provider.
 func NewLogger(opts ...LoggerOption) *log.LoggerProvider {
 	l := &Logger{
 		insecure:        false,
@@ -45,15 +50,19 @@ func NewLogger(opts ...LoggerOption) *log.LoggerProvider {
 	return logProvider
 }
 
-// TracerOption applies a configuration to the given config.
+// LoggerOption configures the log provider NewLogger builds.
 type LoggerOption func(t *Logger)
 
+// WithLogInsecure turns off TLS for the exporters the endpoint options after it
+// set up.
 func WithLogInsecure() LoggerOption {
 	return func(t *Logger) {
 		t.insecure = true
 	}
 }
 
+// WithGrpcLogEndpoint exports logs over OTLP/gRPC to the given endpoint, in
+// batches. It exits the process when the exporter can't be created.
 func WithGrpcLogEndpoint(otelGrpcEndpoint string) LoggerOption {
 	return func(t *Logger) {
 		grpcExporterOptions := []otlploggrpc.Option{
@@ -80,6 +89,8 @@ func WithGrpcLogEndpoint(otelGrpcEndpoint string) LoggerOption {
 	}
 }
 
+// WithHttpLogEndpoint exports logs over OTLP/HTTP to the given endpoint, in
+// batches. It exits the process when the exporter can't be created.
 func WithHttpLogEndpoint(otelHttpEndpoint string) LoggerOption {
 	return func(t *Logger) {
 		httpExporterOptions := []otlploghttp.Option{
@@ -106,6 +117,10 @@ func WithHttpLogEndpoint(otelHttpEndpoint string) LoggerOption {
 	}
 }
 
+// WithLogAutomaticEnv configures the exporter from OTEL_EXPORTER_OTLP_ENDPOINT:
+// OTLP/gRPC when the endpoint contains port 4317, OTLP/HTTP when it contains
+// 4318. OTEL_EXPORTER_OTLP_INSECURE=true turns off TLS. Without an endpoint,
+// nothing is exported.
 func WithLogAutomaticEnv() LoggerOption {
 	return func(t *Logger) {
 		otelEndpoint := os.Getenv("OTEL_EXPORTER_OTLP_ENDPOINT")
@@ -127,12 +142,16 @@ func WithLogAutomaticEnv() LoggerOption {
 	}
 }
 
+// WithLogResources replaces the resource that describes this process in every
+// log record.
 func WithLogResources(res *resource.Resource) LoggerOption {
 	return func(t *Logger) {
 		t.resources = res
 	}
 }
 
+// WithoutRegisterLogProvider leaves the global log provider alone; NewLogger
+// only returns the provider it built.
 func WithoutRegisterLogProvider() LoggerOption {
 	return func(t *Logger) {
 		t.register = false

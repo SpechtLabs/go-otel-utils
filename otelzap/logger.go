@@ -19,9 +19,15 @@ type Logger struct {
 	skipCaller *zap.Logger
 
 	provider   log.LoggerProvider
+	otelLogger log.Logger
 	version    string
 	schemaURL  string
-	otelLogger log.Logger
+
+	// extraFields contains a number of zap.Fields that are added to every log entry
+	extraFields []zap.Field
+	// extraFieldsOnce contains a number of zap.Fields that are added to only the next log entry
+	extraFieldsOnce []zap.Field
+	callerDepth     int
 
 	minLevel         zapcore.Level
 	errorStatusLevel zapcore.Level
@@ -29,12 +35,6 @@ type Logger struct {
 
 	caller     bool
 	stackTrace bool
-
-	// extraFields contains a number of zap.Fields that are added to every log entry
-	extraFields []zap.Field
-	// extraFieldsOnce contains a number of zap.Fields that are added to only the next log entry
-	extraFieldsOnce []zap.Field
-	callerDepth     int
 }
 
 // New creates a new Logger instance with specified options and returns it along
@@ -254,7 +254,7 @@ func (l *Logger) FatalContext(ctx context.Context, msg string, fields ...zapcore
 	l.Ctx(ctx).l.skipCaller.Fatal(msg, fields...)
 }
 
-func (l *Logger) Logf(classification logging.Classification, format string, fields ...interface{}) {
+func (l *Logger) Logf(classification logging.Classification, format string, fields ...any) {
 	msg := fmt.Sprintf(format, fields...)
 
 	switch classification {
