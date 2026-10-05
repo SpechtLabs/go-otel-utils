@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"runtime"
 
+	"go.opentelemetry.io/otel/attribute"
 	"go.opentelemetry.io/otel/codes"
 	"go.opentelemetry.io/otel/log"
 	"go.opentelemetry.io/otel/trace"
@@ -129,14 +130,12 @@ func (l LoggerWithCtx) logFields(
 }
 
 func (l LoggerWithCtx) log(
-	ctx context.Context, lvl zapcore.Level, msg string, kvs []log.KeyValue,
+	ctx context.Context, lvl zapcore.Level, msg string, kvs []attribute.KeyValue,
 ) {
 	if lvl >= l.l.minAnnotateLevel || lvl >= l.l.errorStatusLevel {
 		if span := trace.SpanFromContext(ctx); span.IsRecording() {
 			if lvl >= l.l.minAnnotateLevel {
-				for _, kv := range kvs {
-					span.SetAttributes(Attribute(kv.Key, kv.Value))
-				}
+				span.SetAttributes(kvs...)
 			}
 
 			if lvl >= l.l.errorStatusLevel {
@@ -147,17 +146,17 @@ func (l LoggerWithCtx) log(
 	}
 
 	record := log.Record{}
-	record.SetBody(log.StringValue(msg))
+	record.SetBody(attribute.StringValue(msg))
 	record.SetSeverity(convertLevel(lvl))
 
 	if l.l.caller {
 		if fn, file, line, ok := runtimeCaller(4 + l.l.callerDepth); ok {
 			if fn != "" {
-				kvs = append(kvs, log.String("code.function", fn))
+				kvs = append(kvs, attribute.String("code.function", fn))
 			}
 			if file != "" {
-				kvs = append(kvs, log.String("code.filepath", file))
-				kvs = append(kvs, log.Int("code.lineno", line))
+				kvs = append(kvs, attribute.String("code.filepath", file))
+				kvs = append(kvs, attribute.Int("code.lineno", line))
 			}
 		}
 	}
@@ -165,7 +164,7 @@ func (l LoggerWithCtx) log(
 	if l.l.stackTrace {
 		stackTrace := make([]byte, 2048)
 		n := runtime.Stack(stackTrace, false)
-		kvs = append(kvs, log.String("exception.stacktrace", string(stackTrace[:n])))
+		kvs = append(kvs, attribute.String("exception.stacktrace", string(stackTrace[:n])))
 	}
 
 	if len(kvs) > 0 {
