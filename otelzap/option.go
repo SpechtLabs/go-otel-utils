@@ -1,6 +1,8 @@
 package otelzap
 
 import (
+	"slices"
+
 	"go.opentelemetry.io/otel/log"
 	"go.uber.org/zap/zapcore"
 )
@@ -96,6 +98,8 @@ func WithStackTrace(on bool) Option {
 // and the span
 func WithExtraFields(fields ...zapcore.Field) Option {
 	return func(l *Logger) {
-		l.extraFields = append(l.extraFields, fields...)
+		// A fresh slice: Clone runs options on a copy that shares the
+		// original's backing array.
+		l.extraFields = slices.Concat(l.extraFields, fields)
 	}
 }
