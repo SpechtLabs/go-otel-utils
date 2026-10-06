@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.2.3](https://github.com/SpechtLabs/go-otel-utils/compare/example/v0.2.2...example/v0.2.3) (2026-10-06)
+
+
+### Bug Fixes
+
+* **deps:** break the go 1.27.1 cycle between otelprovider and otelzap ([#59](https://github.com/SpechtLabs/go-otel-utils/issues/59)) ([b285ba3](https://github.com/SpechtLabs/go-otel-utils/commit/b285ba3513abef87692867e45e81401fb8ecf47a))
+* **deps:** declare go 1.27 instead of 1.27.1 ([#58](https://github.com/SpechtLabs/go-otel-utils/issues/58)) ([da194c6](https://github.com/SpechtLabs/go-otel-utils/commit/da194c600517ba33b37e7f51248de84b251bf7d2))
+
 ## [0.2.2](https://github.com/SpechtLabs/go-otel-utils/compare/example/v0.2.1...example/v0.2.2) (2026-10-05)
 
 
