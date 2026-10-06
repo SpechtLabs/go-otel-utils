@@ -1,5 +1,5 @@
 {
-  "otelprovider": "0.2.2",
-  "otelzap": "0.2.2",
-  "example": "0.2.2"
+  "otelprovider": "0.2.3",
+  "otelzap": "0.2.3",
+  "example": "0.2.3"
 }
