@@ -117,6 +117,15 @@ linters:
         text: "^(wideevents|interfaceconsistency):"
         path: ^otelprovider/
 
+      # The exporter options are functional options with no error return, so
+      # a failure to create an exporter can't reach the caller; they exit the
+      # process at startup, as their docs say. Returning the error instead
+      # would change the signature of every option in the public API.
+      - linters:
+          - golint-sl
+        text: "^nopanic:"
+        path: ^otelprovider/(logging|tracing)\.go$
+
       # The example logs made-up errors to show what each level records.
       - linters:
           - golint-sl
