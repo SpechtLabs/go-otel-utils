@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.2.4](https://github.com/SpechtLabs/go-otel-utils/compare/otelzap/v0.2.3...otelzap/v0.2.4) (2026-10-16)
+
+
+### Bug Fixes
+
+* **deps:** update module github.com/aws/smithy-go to v1.28.4 ([#65](https://github.com/SpechtLabs/go-otel-utils/issues/65)) ([48c276e](https://github.com/SpechtLabs/go-otel-utils/commit/48c276ed7b3eef733eeb99e8836fb054f0ca44c3))
+* **deps:** update module github.com/aws/smithy-go to v1.28.5 ([#70](https://github.com/SpechtLabs/go-otel-utils/issues/70)) ([cc698b8](https://github.com/SpechtLabs/go-otel-utils/commit/cc698b880d7f97a619ddc639045ce9ca2d08f373))
+
 ## [0.2.3](https://github.com/SpechtLabs/go-otel-utils/compare/otelzap/v0.2.2...otelzap/v0.2.3) (2026-10-06)
 
 
