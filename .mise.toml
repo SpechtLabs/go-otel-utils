@@ -34,7 +34,7 @@ actionlint = "1.7.12"
 shellcheck = "0.11.0"
 
 # Pins GitHub Actions to commit SHAs (see the update-gha task)
-pinact = "5.0.0"
+pinact = "5.0.1"
 
 # Runs .github/commit-lint, the squash commit message check in
 # pr-hygiene.yaml.
