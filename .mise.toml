@@ -38,7 +38,7 @@ pinact = "5.0.1"
 
 # Runs .github/commit-lint, the squash commit message check in
 # pr-hygiene.yaml.
-bun = "1.4.3"
+bun = "1.4.4"
 
 [tasks.build]
 description = "Build every module"
